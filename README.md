@@ -1,2 +1,3 @@
-# helpcore-backup
-oño
+# HelpCore
+A simple ticket application
+.
