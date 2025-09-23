@@ -46,17 +46,22 @@ public class AuthenticationFilter implements WebFilter {
 
         // SKIP AUTENTICACIÓN PARA RUTAS PÚBLICAS
         if (isPublicPath(path)) {
+            System.out.println("RUTA PÚBLICA: " + path + " - PERMITIENDO ACCESO");
             return chain.filter(exchange);
         }
+
+        System.out.println("RUTA PROTEGIDA: " + path + " - VALIDANDO JWT");
 
         // EXTRAER JWT TOKEN
         String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("NO HAY TOKEN AUTHORIZATION HEADER");
             return handleUnauthorized(exchange, "Missing or invalid Authorization header");
         }
 
         String token = authHeader.substring(7);
+        System.out.println("TOKEN ENCONTRADO: " + token.substring(0, Math.min(token.length(), 20)) + "...");
 
         try {
             // VALIDAR Y DECODIFICAR JWT
@@ -66,6 +71,8 @@ public class AuthenticationFilter implements WebFilter {
             String userId = claims.getId();
             String username = claims.getSubject();
             String usuarioName = claims.get("usuario", String.class);
+
+            System.out.println("TOKEN VÁLIDO para usuario: " + username);
 
             // CREAR AUTHENTICATION OBJECT
             List<SimpleGrantedAuthority> grantedAuthorities = List.of(
@@ -77,10 +84,10 @@ public class AuthenticationFilter implements WebFilter {
 
             // AGREGAR HEADERS PARA MICROSERVICIOS
             ServerHttpRequest mutatedRequest = request.mutate()
-                    .header("X-User-Id", userId != null ? userId : username)    // ID o username
-                    .header("X-User-Username", username)                        // Username para logs
-                    .header("X-User-Role", "USER")                 // Rol por defecto
-                    .header("X-Auth-Source", "api-gateway")        // Identificar source de auth
+                    .header("X-User-Id", userId != null ? userId : username)
+                    .header("X-User-Username", username)
+                    .header("X-User-Role", "USER")
+                    .header("X-Auth-Source", "api-gateway")
                     .build();
 
             ServerWebExchange mutatedExchange = exchange.mutate().request(mutatedRequest).build();
@@ -90,6 +97,7 @@ public class AuthenticationFilter implements WebFilter {
                     .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
 
         } catch (Exception e) {
+            System.out.println("ERROR AL VALIDAR TOKEN: " + e.getMessage());
             return handleUnauthorized(exchange, "Invalid JWT token: " + e.getMessage());
         }
     }
@@ -142,29 +150,33 @@ public class AuthenticationFilter implements WebFilter {
         }
     }
 
-    // Verificar si una ruta es pública
     private boolean isPublicPath(String path) {
+        System.out.println("Verificando ruta: " + path);
+
         // Rutas de autenticación
         if (path.startsWith("/api/auth/login") ||
-            path.startsWith("/api/auth/register")) {
+                path.startsWith("/api/auth/register")) {
+            System.out.println("Ruta de autenticación detectada");
             return true;
         }
 
         // Health checks y documentación
         if (path.equals("/health") ||
-            path.startsWith("/api/docs") ||
-            path.equals("/actuator/health")) {
+                path.startsWith("/api/docs") ||
+                path.equals("/actuator/health")) {
+            System.out.println("Ruta de health check detectada");
             return true;
         }
 
         // Fallback endpoints
         if (path.startsWith("/fallback/")) {
+            System.out.println("Ruta de fallback detectada");
             return true;
         }
 
+        System.out.println("Ruta protegida detectada");
         return false;
     }
-
 
     // Manejar requests no autorizados
     private Mono<Void> handleUnauthorized(ServerWebExchange exchange, String message) {

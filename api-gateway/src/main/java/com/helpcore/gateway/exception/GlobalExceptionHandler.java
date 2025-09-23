@@ -192,7 +192,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
         jsonBuilder.append(",\n  \"help\": {\n");
         jsonBuilder.append("    \"documentation\": \"/api/docs\",\n");
-        jsonBuilder.append("    \"support\": \"support@ticketing-system.com\",\n");
+        jsonBuilder.append("    \"support\": \"support@helpcore-system.com\",\n");
         jsonBuilder.append("    \"status\": \"/health\"\n");
         jsonBuilder.append("  }\n");
 

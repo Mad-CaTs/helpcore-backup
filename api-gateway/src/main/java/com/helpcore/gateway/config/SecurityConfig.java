@@ -34,26 +34,26 @@ public class SecurityConfig {
                 .httpBasic(basic -> basic.disable())
                 .formLogin(form -> form.disable())
 
-                // Configuración de CORS
-                .cors(cors -> cors.disable()) // CORS manejado por CorsWebFilter
+                // CORS
+                .cors(cors -> cors.disable())
 
                 // Configuración de autorización de endpoints
                 .authorizeExchange(exchanges -> exchanges
                         // RUTAS PÚBLICAS
-                        .pathMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                        .pathMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflight CORS
 
                         // Health checks y documentación
                         .pathMatchers(HttpMethod.GET, "/health").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/api/docs/**").permitAll()
+//                        .pathMatchers(HttpMethod.GET, "/api/docs/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 
                         // Endpoints de fallback
                         .pathMatchers("/fallback/**").permitAll()
 
                         // RUTAS PROTEGIDAS
-                        .pathMatchers("/api/auth/refresh").authenticated()
+                        .pathMatchers("/auth/refresh").authenticated()
 
                         // Cualquier otra ruta requiere autenticación
                         .anyExchange().authenticated()
