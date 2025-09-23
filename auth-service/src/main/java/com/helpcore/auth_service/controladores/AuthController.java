@@ -25,38 +25,17 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/register")
-    public ResponseEntity<TokenResponseDTO> register(@RequestBody final UsuarioRegisterDTO request) {
-        System.out.println("=== AUTH-SERVICE CONTROLLER: /register RECIBIDO ===");
-        System.out.println("Usuario: " + request.getNombreUsuario());
-        System.out.println("Password: " + request.getContrasena());
-
-        try {
-            final TokenResponseDTO token = authService.registrar(request);
-            System.out.println("=== REGISTRO EXITOSO ===");
-            return ResponseEntity.ok(token);
-        } catch (Exception e) {
-            System.out.println("=== ERROR EN REGISTRO: " + e.getMessage() + " ===");
-            e.printStackTrace();
-            throw e;
-        }
-    }
+   @PostMapping("/register")
+   public ResponseEntity<TokenResponseDTO> register(@RequestBody final UsuarioRegisterDTO request) {
+       final TokenResponseDTO token = authService.registrar(request);
+       return ResponseEntity.ok(token);
+   }
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDTO> login(@RequestBody final UsuarioLoginDTO request) {
-        System.out.println("=== AUTH-SERVICE CONTROLLER: /login RECIBIDO ===");
-        System.out.println("Usuario: " + request.getNombreUsuario());
-
-        try {
-            final TokenResponseDTO token = authService.login(request);
-            System.out.println("=== LOGIN EXITOSO ===");
-            return ResponseEntity.ok(token);
-        } catch (Exception e) {
-            System.out.println("=== ERROR EN LOGIN: " + e.getMessage() + " ===");
-            e.printStackTrace();
-            throw e;
-        }
-    }
+       final TokenResponseDTO token = authService.login(request);
+       return ResponseEntity.ok(token);
+   }
 
    @PostMapping("/refresh")
     public TokenResponseDTO refresh(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {

@@ -21,7 +21,6 @@ import java.time.Instant;
 // * - Loggear errores para monitoreo
 // * - Evitar exposición de información sensible
 // * - Manejar timeouts y errores de circuit breaker
-
 @Component
 @Order(-1)  // Alta prioridad
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {

@@ -52,8 +52,8 @@ public class SecurityConfig {
                 )
 
                 // FILTROS PERSONALIZADOS
-                .addFilterBefore(corsWebFilter, SecurityWebFiltersOrder.CORS)
-                .addFilterAfter(authenticationFilter, SecurityWebFiltersOrder.CORS)
+                .addFilterBefore(authenticationFilter, SecurityWebFiltersOrder.AUTHORIZATION)
+                .addFilterAfter(corsWebFilter, SecurityWebFiltersOrder.CORS)
 
                 // EXCEPCIONES
                 .exceptionHandling(exceptions -> exceptions
