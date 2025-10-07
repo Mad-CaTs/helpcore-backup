@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-inicio',
@@ -10,10 +11,15 @@ import { AuthService } from '../../services/auth-service';
 })
 export class Inicio {
 
+  isAuthenticated$: Observable<boolean>;
+
+
   constructor(
     private router: Router,
     private authService: AuthService,
-  ) {}
+  ) {
+      this.isAuthenticated$ = this.authService.isAuthenticated$;
+  }
 
   createTicket(type: 'logged' | 'guest') {
     console.log(`Crear ticket como: ${type}`);

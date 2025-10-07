@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../../services/notification-service';
+import { AlertService } from '../../services/alert-service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,7 @@ export class Login {
     private authService: AuthService,
     private router: Router,
 
-    private notyf: NotificationService
+    private notyf: AlertService
   ) {
     this.loginForm = this.formBuilder.group({
       nombreUsuario: ['', [Validators.required, Validators.minLength(3)]],

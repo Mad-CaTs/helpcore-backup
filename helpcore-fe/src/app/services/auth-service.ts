@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LoginRequest } from '../dto/login-request';
 import { TokenResponse } from '../dto/token-response';
 
@@ -12,6 +12,9 @@ export class AuthService {
   private baseUrl = environment.apiUrl;
   private path = environment.authService;
 
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
+  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   login(request: LoginRequest): Observable<TokenResponse> {
@@ -19,6 +22,7 @@ export class AuthService {
       tap(response => {
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
+        this.isAuthenticatedSubject.next(true);
         console.log('Tokens guardados:', response);
       })
     );
@@ -29,6 +33,7 @@ export class AuthService {
       tap(response => {
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
+        this.isAuthenticatedSubject.next(true);
       })
     );
   }
@@ -43,6 +48,7 @@ export class AuthService {
       tap(response => {
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
+        this.isAuthenticatedSubject.next(true);
       })
     );
   }
@@ -52,6 +58,7 @@ export class AuthService {
       tap(() => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
+        this.isAuthenticatedSubject.next(false);
       })
     );
   }

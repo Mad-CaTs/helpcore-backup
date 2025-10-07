@@ -12,6 +12,7 @@ import { NavBar } from './components/common/nav-bar/nav-bar';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { Ticket } from './components/ticket/ticket';
 import { ConsultarEstado } from './components/consultar-estado/consultar-estado';
+import { Register } from './components/register/register';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ConsultarEstado } from './components/consultar-estado/consultar-estado'
     Inicio,
     NavBar,
     Ticket,
-    ConsultarEstado
+    ConsultarEstado,
+    Register
   ],
   imports: [
     BrowserModule,

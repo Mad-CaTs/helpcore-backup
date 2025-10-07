@@ -1,0 +1,93 @@
+<div class="register-container">
+  <div class="register-card animate">
+    <div class="register-header">
+      <h1 class="register-title">Crear Cuenta</h1>
+      <p class="register-subtitle">Únete a HelpCore y gestiona tus tickets fácilmente</p>
+    </div>
+
+    <form class="register-form" id="registroForm">
+      <div class="form-grid">
+        <!-- Nombres -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-icon"><i class="bi bi-person"></i></div>
+            <input type="text" id="nombres" name="nombres" placeholder="Nombres" required>
+          </div>
+        </div>
+
+        <!-- Apellidos -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-icon"><i class="bi bi-person"></i></div>
+            <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required>
+          </div>
+        </div>
+
+        <!-- DNI -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-icon"><i class="bi bi-card-text"></i></div>
+            <input type="number" id="dni" name="dni" placeholder="DNI" required>
+          </div>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-icon"><i class="bi bi-telephone"></i></div>
+            <input type="number" id="telefono" name="telefono" placeholder="Teléfono móvil" required>
+          </div>
+        </div>
+
+        <!-- Código de alumno -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-icon"><i class="bi bi-mortarboard"></i></div>
+            <input type="text" id="codigo" name="codigo" placeholder="Código de alumno" required>
+          </div>
+        </div>
+
+        <!-- Sede -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-icon"><i class="bi bi-building"></i></div>
+            <input type="text" id="sede" name="sede" placeholder="Sede" required>
+          </div>
+        </div>
+
+        <!-- Correo -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-icon"><i class="bi bi-envelope"></i></div>
+            <input type="email" id="correo" name="correo" placeholder="Correo electrónico activo" required>
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-icon"><i class="bi bi-lock"></i></div>
+            <input type="password" id="password" name="password" placeholder="Contraseña" required>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary w-100">
+        <i class="bi bi-person-plus"></i>
+        Registrarse
+      </button>
+
+      <div class="form-footer">
+        <a href="#" class="secondary-link" [routerLink]="['/login']">¿Ya tienes una cuenta? Inicia sesión</a>
+      </div>
+    </form>
+
+    <div class="register-footer">
+      <p class="brand-text">
+        <i class="bi bi-ticket-perforated"></i>
+        HelpCore
+      </p>
+      <p class="copyright">Sistema de gestión de tickets</p>
+    </div>
+  </div>
+</div>

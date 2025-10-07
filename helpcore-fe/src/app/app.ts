@@ -18,7 +18,7 @@ export class App {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       // Ocultar navbar en /login
-      this.showNavBar = !(event.url === '/login');
+      this.showNavBar = !(event.url === '/login' || event.url === '/register');
     });
   }
 }

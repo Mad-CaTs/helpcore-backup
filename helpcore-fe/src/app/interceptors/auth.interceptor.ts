@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 export class AuthInterceptor implements HttpInterceptor {
   
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Obtener el token del localStorage
     const token = localStorage.getItem('access_token');
     
     if (!token) {

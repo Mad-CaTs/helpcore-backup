@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,11 +10,16 @@ import { AuthService } from '../../../services/auth-service';
   styleUrl: './nav-bar.css'
 })
 export class NavBar {
+
+  isAuthenticated$: Observable<boolean>;
+
   activeLink: string = 'inicio';
   constructor(
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) {
+      this.isAuthenticated$ = this.authService.isAuthenticated$;
+  }
 
    setActive(link: string) {
     this.activeLink = link;
@@ -32,5 +38,9 @@ export class NavBar {
         console.error('Error en logout:', error);
       }
     });
+  }
+
+  onRegister() {
+  this.router.navigate(['/register']);
   }
 }
