@@ -1,0 +1,336 @@
+<div class="dashboard-container">
+  <div class="container">
+
+    <div class="dashboard-header">
+      <div class="header-content">
+        <div class="header-title">
+          <i class="bi bi-kanban"></i>
+          <div>
+            <h1>Mis Tickets</h1>
+            <p>Gestiona tus solicitudes</p>
+          </div>
+        </div>
+        <button class="btn btn-primary">
+          <i class="bi bi-plus-circle"></i>
+          Crear Nuevo Ticket
+        </button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon total">
+          <i class="bi bi-ticket-detailed"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Total de Tickets</span>
+          <span class="stat-value">Estadisticas</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon en-atencion">
+          <i class="bi bi-hourglass-split"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">En Atención</span>
+          <span class="stat-value">Estadisticas</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon cerrado">
+          <i class="bi bi-x-circle-fill"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Cerrados</span>
+          <span class="stat-value">Estadisticas</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="filters-section">
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input 
+          type="text" 
+          placeholder="Buscar por título, ID o categoría..." 
+        >
+      </div>
+    </div>
+
+      <div class="tickets-table-container">
+        <table class="tickets-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Título</th>
+              <th>Categoría</th>
+              <th>Estado</th>
+              <th>Prioridad</th>
+              <th>Creado</th>
+              <th>Días</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="ticket-row">
+              <td class="ticket-id">#ID</td>
+              
+              <td class="ticket-title">
+                <div class="title-content">
+                  <span class="title-text">Titulo</span>
+                  <span class="title-category">Categoria</span>
+                </div>
+              </td>
+              
+              <td class="ticket-category">
+                <span class="category-badge">
+                  Categoria
+                </span>
+              </td>
+              
+              <td class="ticket-estado">
+                <span class="badge">
+                  Estado
+                </span>
+              </td>
+              
+              <td class="ticket-prioridad">
+                <span class="badge">
+                  Prioridad
+                </span>
+              </td>
+              
+              <td class="ticket-fecha">
+                Fecha Creacion
+              </td>
+              
+              <td class="ticket-dias">
+                <span class="dias-badge">
+                  Dias desde creacion
+                </span>
+              </td>
+              
+              <td class="ticket-acciones">
+                <button class="btn-icon" title="Ver detalles">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pagination">
+          <button 
+            class="btn-pagination" 
+          >
+            <i class="bi bi-chevron-left"></i>
+            Anterior
+          </button>
+          
+          <span class="pagination-info">
+            Página # de #
+            <span class="pagination-total">Tickets Filtrados</span>
+          </span>
+          
+          <button 
+            class="btn-pagination" 
+          >
+            Siguiente
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="ticket-detail-container">
+  <div class="container">
+    
+    <div class="detail-header">
+      <button class="btn btn-outline">
+        <i class="bi bi-arrow-left"></i>
+        Volver a la lista
+      </button>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-title-section">
+        <div class="detail-id-badge">
+          Ticket #1
+        </div>
+        <h1 class="detail-title">No puedo acceder a mi correo institucional</h1>
+        
+        <div class="detail-badges">
+          <span class="badge prioridad-alta">
+            ALTA
+          </span>
+          <span class="category-badge">
+            Acceso y Cuentas
+          </span>
+        </div>
+      </div>
+
+      <div class="detail-info-grid">
+        <div class="info-item">
+          <i class="bi bi-calendar-plus"></i>
+          <div>
+            <span class="info-label">Fecha de Creación</span>
+            <span class="info-value">15 Dic 2024, 10:30 AM</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <i class="bi bi-person-check"></i>
+          <div>
+            <span class="info-label">Fecha de Asignación</span>
+            <span class="info-value">16 Dic 2024, 02:15 PM</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <i class="bi bi-building"></i>
+          <div>
+            <span class="info-label">Sede</span>
+            <span class="info-value">Lima - Campus Principal</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <i class="bi bi-person-badge"></i>
+          <div>
+            <span class="info-label">Código de Alumno</span>
+            <span class="info-value">A12345678</span>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <i class="bi bi-clock-history"></i>
+          <div>
+            <span class="info-label">Tiempo Transcurrido</span>
+            <span class="info-value">2 días, 4 horas</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-description">
+        <h3>
+          <i class="bi bi-file-text"></i>
+          Descripción del Problema
+        </h3>
+        <p>Desde ayer no puedo ingresar a mi correo institucional. He intentado recuperar mi contraseña pero no me llega el email de recuperación. Necesito acceso urgente ya que tengo que enviar trabajos importantes para esta semana.</p>
+      </div>
+
+      <div class="detail-response">
+        <h3>
+          <i class="bi bi-chat-left-text"></i>
+          Respuesta del Agente de Soporte
+        </h3>
+        <div class="response-card">
+          <div class="response-header">
+            <div class="agent-info">
+              <i class="bi bi-person-circle"></i>
+              <div>
+                <span class="agent-name">Juan Pérez</span>
+                <span class="agent-role">Agente de Soporte Técnico</span>
+              </div>
+            </div>
+            <span class="response-date">16 Dic 2024, 04:30 PM</span>
+          </div>
+          <div class="response-content">
+            <p>
+              Hemos verificado tu cuenta y hemos restablecido el acceso a tu correo institucional. 
+              El problema se debía a una configuración incorrecta en el servidor de correo después de una actualización del sistema.
+            </p>
+            <p>
+              <strong>Pasos realizados:</strong>
+            </p>
+            <ul>
+              <li>Verificación de credenciales en el sistema central</li>
+              <li>Reset de contraseña temporal</li>
+              <li>Actualización de permisos de acceso al servidor</li>
+              <li>Prueba de conexión exitosa confirmada</li>
+            </ul>
+            <p>
+              Por favor, intenta ingresar nuevamente con tu contraseña actual. Si el problema persiste dentro de las próximas 2 horas, 
+              contáctanos inmediatamente al 555-1234 o responde directamente a este ticket.
+            </p>
+            <div class="response-footer">
+              <span class="response-status">
+                <i class="bi bi-check-circle-fill"></i>
+                Problema Resuelto
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-timeline">
+        <h3>
+          <i class="bi bi-clock-history"></i>
+          Historial del Ticket
+        </h3>
+        
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-marker creado"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Ticket Creado</div>
+              <div class="timeline-date">15 Dic 2024, 10:30 AM</div>
+              <div class="timeline-description">
+                El ticket ha sido creado exitosamente y está esperando ser asignado a un agente de soporte del área correspondiente.
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker asignado"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Ticket Asignado</div>
+              <div class="timeline-date">16 Dic 2024, 02:15 PM</div>
+              <div class="timeline-description">
+                El ticket ha sido asignado a Juan Pérez del equipo de soporte técnico y está en proceso de atención activa.
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker resuelto"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Ticket Resuelto</div>
+              <div class="timeline-date">16 Dic 2024, 04:30 PM</div>
+              <div class="timeline-description">
+                El problema ha sido identificado y resuelto satisfactoriamente. Se ha restablecido el acceso completo al correo institucional.
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker cerrado"></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Ticket Cerrado</div>
+              <div class="timeline-date">17 Dic 2024, 09:00 AM</div>
+              <div class="timeline-description">
+                El ticket ha sido cerrado exitosamente después de la confirmación del usuario de que el problema fue resuelto.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-actions">
+        <button class="btn btn-outline">
+          <i class="bi bi-chat-dots"></i>
+          Agregar Comentario
+        </button>
+        
+        <button class="btn btn-primary">
+          <i class="bi bi-check-circle"></i>
+          Confirmar Resolución
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

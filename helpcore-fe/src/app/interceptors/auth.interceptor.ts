@@ -1,41 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { catchError, switchMap } from 'rxjs/operators';
-import { throwError, EMPTY } from 'rxjs';
-import { AuthService } from '../services/auth-service';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // Obtener el token del localStorage
+    const token = localStorage.getItem('access_token');
+    
+    if (!token) {
+      console.log('No hay token, petición sin modificar');
+      return next.handle(req);
+    }
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
     const authReq = req.clone({
-      setHeaders: {},
-      withCredentials: true
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
     });
 
-    return next.handle(authReq).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          if (!req.url.includes('/auth/refresh') && !req.url.includes('/auth/login')) {
-            return this.authService.refreshToken().pipe(
-              switchMap(() => {
-                const retryReq = req.clone({ withCredentials: true });
-                return next.handle(retryReq);
-              }),
-              catchError((refreshError) => {
-                this.router.navigate(['/login']);
-                return throwError(() => refreshError);
-              })
-            );
-          } else {
-            this.router.navigate(['/login']);
-          }
-        }
-        return throwError(() => error);
-      })
-    );
+    console.log('✓ Token agregado a la petición:', authReq.headers.get('Authorization'));
+    
+    return next.handle(authReq);
   }
 }

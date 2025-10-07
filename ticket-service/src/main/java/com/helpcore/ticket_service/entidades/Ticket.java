@@ -65,7 +65,7 @@ public class Ticket {
     @Column(name = "fecha_cierre")
     private LocalDateTime fechaCierre;
 
-    @Column(name = "es_activo", nullable = false)
+    @Column(name = "activo", nullable = false)
     private boolean activo;
 
     @PrePersist

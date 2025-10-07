@@ -3,6 +3,7 @@ package com.helpcore.ticket_service.controladores;
 import com.helpcore.ticket_service.entidades.CategoriaTicket;
 import com.helpcore.ticket_service.entidades.Invitado;
 import com.helpcore.ticket_service.entidades.Ticket;
+import com.helpcore.ticket_service.entidades.dto.TicketInvitadoRequestDTO;
 import com.helpcore.ticket_service.repositorios.CategoriaTicketRepository;
 import com.helpcore.ticket_service.servicios.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class TicketController {
             invitado.setTelefono((String) requestData.get("telefono"));
 
             // Crear objeto Ticket con los datos del formulario
-            Ticket ticket = new Ticket();
+            TicketInvitadoRequestDTO ticket = new TicketInvitadoRequestDTO();
             ticket.setTitulo((String) requestData.get("asunto"));
             ticket.setDescripcion((String) requestData.get("comentarios"));
             ticket.setCodigoAlumno((String) requestData.get("codigoAlumno"));
@@ -96,5 +97,4 @@ public class TicketController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-
 }

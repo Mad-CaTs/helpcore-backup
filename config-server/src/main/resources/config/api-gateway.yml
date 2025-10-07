@@ -1,131 +1,91 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: api-gateway
-
   cloud:
+    config:
+      uri: http://localhost:8888
+      username: admin
+      password: config123
+      fail-fast: false
     gateway:
-      # CONFIGURACIÓN GLOBAL DE CORS
-      globalcors:
-        add-to-simple-url-handler-mapping: true
-        cors-configurations:
-          '[/**]':
-            allowedOriginPatterns:
-              - "http://localhost:4200"
-              - "http://127.0.0.1:4200"
-              - "https://helpcore.com"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - PATCH
-              - DELETE
-              - OPTIONS
-            allowedHeaders: "*"
-            allowCredentials: true
-            maxAge: 3600
-
-      # RUTAS DEL GATEWAY
-      routes:
-        - id: auth-service
-          uri: lb://auth-service
-          predicates:
-            - Path=/api/auth/**
-          filters:
-            - StripPrefix=0
-          metadata:
-            cors:
-              allowedOriginPatterns:
-                - "http://localhost:4200"
-                - "http://127.0.0.1:4200"
-                - "https://helpcore.com"
-              allowedMethods: "*"
-              allowedHeaders: "*"
-              allowCredentials: true
-
-        - id: ticket-service
-          uri: lb://ticket-service
-          predicates:
-            - Path=/api/ticket/**
-            - Path=/api/categoria-ticket/**
-          filters:
-            - StripPrefix=0
-          metadata:
-            cors:
-              allowedOriginPatterns:
-                - "http://localhost:4200"
-                - "http://127.0.0.1:4200"
-                - "https://helpcore.com"
-              allowedMethods: "*"
-              allowedHeaders: "*"
-              allowCredentials: true
-
-        - id: notification-service
-          uri: lb://notification-service
-          predicates:
-            - Path=/api/notifications/**
-          filters:
-            - StripPrefix=0
-
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
+      routes:
+        # Ruta para Auth Service
+        - id: auth-service-protected
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/rol/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+        - id: auth-service-public
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+
+        # Ruta para Ticket Service
+        - id: ticket-service
+          uri: lb://ticket-service
+          predicates:
+            - Path=/api/ticket/**, /api/categoria-ticket/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins:
+              - "http://localhost:4200"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowed-headers: "*"
+            expose-headers:
+              - "Authorization"
+            allow-credentials: true
+            max-age: 3600
+
+server:
+  port: 8080
 
 eureka:
-  instance:
-    hostname: api-gateway
-    prefer-ip-address: false
-    lease-renewal-interval-in-seconds: 10
-    lease-expiration-duration-in-seconds: 30
   client:
     service-url:
-      defaultZone: http://service-register:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
     fetch-registry: true
     register-with-eureka: true
-    initial-instance-info-replication-interval-seconds: 10
-    instance-info-replication-interval-seconds: 10
-
-# ===== JWT CONFIGURATION =====
-jwt:
-  secret: QmFzZTY0RW5jb2RlZEtleVNlZ3VyYUV4YW1wbGVEYXRhIQ==
-  expiration: 60000
-
-logging:
-  level:
-    com.helpcore.gateway: DEBUG
-    org.springframework.cloud.gateway: DEBUG
-    org.springframework.security: INFO
-    org.springframework.web.cors: DEBUG
-    reactor.netty: INFO
-    com.netflix.eureka: DEBUG
-    com.netflix.discovery: DEBUG
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  instance:
+    prefer-ip-address: true
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,gateway
+        include: "*"
   endpoint:
     health:
       show-details: always
 
-# CONFIGURACIONES COMENTADAS PARA DESPUÉS
-#spring.redis:
-#  host: localhost
-#  port: 6379
-#  timeout: 2000ms
-#
-#resilience4j:
-#  circuitbreaker:
-#    instances:
-#      auth-service-cb:
-#        registerHealthIndicator: true
-#        slidingWindowSize: 10
-#        failureRateThreshold: 50
-#        waitDurationInOpenState: 30s
-#        permittedNumberOfCallsInHalfOpenState: 3
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+
+#MSG DE CARLOS: Importante que lo de abajo tenga el mismo valor que el auth.
+app:
+  security:
+    jwt:
+      secret: QmFzZTY0RW5jb2RlZEtleVNlZ3VyYUV4YW1wbGVEYXRhIQ==
+      expiration: 900000
+      refresh-token:
+        expiration: 604800000

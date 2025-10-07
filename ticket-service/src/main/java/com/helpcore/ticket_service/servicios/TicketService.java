@@ -4,6 +4,7 @@ package com.helpcore.ticket_service.servicios;
 import com.helpcore.ticket_service.entidades.CategoriaTicket;
 import com.helpcore.ticket_service.entidades.Invitado;
 import com.helpcore.ticket_service.entidades.Ticket;
+import com.helpcore.ticket_service.entidades.dto.TicketInvitadoRequestDTO;
 import com.helpcore.ticket_service.repositorios.CategoriaTicketRepository;
 import com.helpcore.ticket_service.repositorios.InvitadoRepository;
 import com.helpcore.ticket_service.repositorios.TicketRepository;
@@ -77,22 +78,31 @@ public class TicketService {
      * El objeto ticket debe venir con el invitado ya configurado
      */
     @Transactional
-    public Ticket crearTicketConInvitado(Ticket ticket, Invitado invitado, Integer idCategoria) {
+    public Ticket crearTicketConInvitado(TicketInvitadoRequestDTO dto, Invitado invitado, Integer idCategoria) {
         try {
             Invitado invitadoGuardado = invitadoService.crear(invitado);
-
-            ticket.setInvitado(invitadoGuardado);
-            ticket.setIdUsuarioCliente(null);
-            ticket.setEstado(Ticket.Estado.NUEVO);
-            ticket.setPrioridad(Ticket.Prioridad.MEDIA);
-            ticket.setFechaCreacion(LocalDateTime.now());
 
             CategoriaTicket categoria = categoriaTicketRepository.findById(idCategoria)
                     .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
 
+            Ticket ticket = new Ticket();
+            ticket.setTitulo(dto.getTitulo());
+            ticket.setDescripcion(dto.getDescripcion());
+            ticket.setEstado(Ticket.Estado.NUEVO);
+            ticket.setPrioridad(Ticket.Prioridad.MEDIA);
+            ticket.setCodigoAlumno(dto.getCodigoAlumno());
+            ticket.setSede(dto.getSede());
+            ticket.setIdUsuarioCliente(null);
+            ticket.setIdUsuarioAgente(null);
             ticket.setCategoria(categoria);
+            ticket.setInvitado(invitadoGuardado);
+            ticket.setActivo(true);
+            ticket.setFechaCreacion(LocalDateTime.now());
+            ticket.setFechaAsignacion(null);
+            ticket.setFechaResolucion(null);
+            ticket.setFechaCierre(null);
 
-            return crear(ticket);
+            return ticketRepository.save(ticket);
 
         } catch (Exception e) {
             throw new RuntimeException("Error al crear el ticket con invitado: " + e.getMessage(), e);

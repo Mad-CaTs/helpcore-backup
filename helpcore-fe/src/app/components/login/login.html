@@ -1,14 +1,11 @@
 <div class="login-container">
   <div class="login-card">
-    <!-- Header -->
     <div class="login-header">
       <h1 class="login-title">Iniciar Sesión</h1>
       <p class="login-subtitle">Accede a tu cuenta de HelpCore</p>
     </div>
 
-    <!-- Formulario Angular -->
     <form class="login-form" id="loginForm" (submit)="login()" [formGroup]="loginForm">
-      <!-- Usuario -->
       <div class="form-group mb-3">
         <div class="input-group">
           <div class="input-icon">
@@ -26,7 +23,6 @@
         </div>
       </div>
 
-      <!-- Contraseña -->
       <div class="form-group mb-3">
         <div class="input-group">
           <div class="input-icon">
@@ -44,24 +40,20 @@
         </div>
       </div>
 
-      <!-- Mensaje de error -->
       <div *ngIf="mensaje" class="error-message mb-2">
         {{ mensaje }}
       </div>
 
-      <!-- Botón -->
       <button type="submit" class="btn-primary w-100">
         <i class="fas fa-sign-in-alt"></i>
         Iniciar Sesión
       </button>
 
-      <!-- Footer form -->
       <div class="form-footer">
         <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
       </div>
     </form>
 
-    <!-- Footer card -->
     <div class="login-footer">
       <p class="brand-text">
         <i class="fas fa-ticket-alt"></i>

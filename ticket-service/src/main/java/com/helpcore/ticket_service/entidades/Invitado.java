@@ -33,14 +33,17 @@ public class Invitado {
     @Column(length = 20)
     private String telefono;
 
-    @Column(name = "es_activo", nullable = false)
-    private boolean activo;
+    @Column(name = "activo", nullable = false)
+    private boolean activo = true;
 
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
 
     @PrePersist
     public void prePersist() {
-        fechaCreacion = LocalDateTime.now();
+        if (fechaCreacion == null) {
+            fechaCreacion = LocalDateTime.now();
+        }
+        activo = true;
     }
 }

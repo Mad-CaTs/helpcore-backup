@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TicketService } from '../../services/ticket-service';
 import { CategoriaTicketService } from '../../services/categoria-ticket-service';
+import { CategoriaTicket } from '../../interfaces/categoria-ticket';
 
 @Component({
   selector: 'app-ticket',
@@ -12,7 +13,7 @@ import { CategoriaTicketService } from '../../services/categoria-ticket-service'
 export class Ticket implements OnInit{
   ticketForm: FormGroup;
   isLoading = false;
-  categoriaTickets: any;
+  categoriaTickets: CategoriaTicket[] = [];
 
 
   constructor(
@@ -21,16 +22,16 @@ export class Ticket implements OnInit{
     private categoriaTicketService: CategoriaTicketService
   ) {
     this.ticketForm = this.fb.group({
-      fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
-      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      nombres: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      apellidos: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
       dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
-      phone: ['', [Validators.required, Validators.pattern(/^\+51\s\d{3}\s\d{3}\s\d{3}$/)]],
-      studentCode: ['', [Validators.required, Validators.pattern(/^A\d{8}$/)]],
+      telefono: ['', [Validators.required, Validators.pattern(/^(\+51)?\s?\d{9}$/)]],
+      codigoAlumno: ['', [Validators.required, Validators.pattern(/^A\d{8}$/)]],
       sede: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      helpTopic: ['', Validators.required],
-      subject: ['', Validators.required],
-      body: ['', Validators.required]
+      categoria: ['', Validators.required],
+      asunto: ['', Validators.required],
+      comentarios: ['', Validators.required]
     });
   }
 
@@ -38,9 +39,11 @@ export class Ticket implements OnInit{
   this.categoriaTicketService.listarCategoriaTicket().subscribe({
     next: (data) => {
       this.categoriaTickets = data;
+      this.isLoading = false;
     },
     error: (err) => {
-      console.error("❌ Error al listar categorías:", err);
+      console.error("Error al listar categorías:", err);
+      this.isLoading = false;
     }
   });
 }
@@ -51,20 +54,26 @@ ngOnInit(): void {
 
 
   onSubmit(): void {
+    console.log(this.ticketForm.value);
+    Object.keys(this.ticketForm.controls).forEach(key => {
+      const control = this.ticketForm.get(key);
+      console.log(`${key}:`, control?.valid ? '✅ válido' : '❌ inválido', control?.errors);
+    });
+
     if (this.ticketForm.valid) {
       this.isLoading = true;
 
       const ticketData = {
-        nombres: this.ticketForm.get('fullName')?.value,
-        apellidos: this.ticketForm.get('lastName')?.value,
+        nombres: this.ticketForm.get('nombres')?.value,
+        apellidos: this.ticketForm.get('apellidos')?.value,
         dni: this.ticketForm.get('dni')?.value,
         email: this.ticketForm.get('email')?.value,
-        telefono: this.ticketForm.get('phone')?.value,
-        codigoAlumno: this.ticketForm.get('studentCode')?.value,
+        telefono: this.ticketForm.get('telefono')?.value,
+        codigoAlumno: this.ticketForm.get('codigoAlumno')?.value,
         sede: this.ticketForm.get('sede')?.value,
-        temaAyuda: this.ticketForm.get('helpTopic')?.value,
-        asunto: this.ticketForm.get('subject')?.value,
-        comentarios: this.ticketForm.get('body')?.value
+        categoria: +this.ticketForm.get('categoria')?.value,
+        asunto: this.ticketForm.get('asunto')?.value,
+        comentarios: this.ticketForm.get('comentarios')?.value
       };
 
       this.ticketService.crearInvitado(ticketData).subscribe({

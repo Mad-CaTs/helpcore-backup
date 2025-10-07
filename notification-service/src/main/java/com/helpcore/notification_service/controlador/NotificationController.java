@@ -15,7 +15,7 @@ public class NotificationController {
     @PostMapping("/ticket-creado")
     public ResponseEntity<String> handleTicketCreated(@RequestBody TicketCreatedDto ticket) {
         try{
-            emailService.sendTicketCreatedEmails(ticket, "joaquin.asr.16@gmail.com");
+            emailService.sendTicketCreatedEmails(ticket, "soportehelpcore@gmail.com");
             return ResponseEntity.ok("Notificación enviada al equipo de soporte.");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error al enviar el correo: " + e.getMessage());

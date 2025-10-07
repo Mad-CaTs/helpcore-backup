@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../services/notification-service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,9 @@ export class Login {
   constructor(
     private formBuilder: FormBuilder, 
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+
+    private notyf: NotificationService
   ) {
     this.loginForm = this.formBuilder.group({
       nombreUsuario: ['', [Validators.required, Validators.minLength(3)]],
@@ -32,27 +35,29 @@ export class Login {
       this.isLoading = true;
       
       this.authService.login(this.loginForm.value).subscribe({
-        next: (response) => {
+        next: () => {
           this.isLoading = false;
-          
-          console.log('Login response:', response);
-          console.log('Cookies después del login:', document.cookie);
-          
-          this.mensaje = "Login exitoso - Redirigiendo...";
           
           setTimeout(() => {
             this.router.navigate(['/inicio']);
           }, 1000);
+
+          this.notyf.success("Login exitoso.")
+          
+          
         },
         error: (error) => {
           this.isLoading = false;
-          console.error('Error en login:', error);
+
           
           if (error.status === 401) {
-            this.mensaje = "Usuario o contraseña inválidos";
+            this.notyf.error("Usuario no existe.")
           } else if (error.status === 0) {
             this.mensaje = "Error de conexión. Verifica que el servidor esté corriendo.";
-          } else {
+          } else if(error.status === 500){
+            this.notyf.error("Error en login.")
+          } 
+          else {
             this.mensaje = "Ha ocurrido un error inesperado.";
           }
         }

@@ -13,24 +13,3 @@ spring:
       server:
         native:
           search-locations: file:./config,classpath:/config
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
-
-  autoconfigure:
-    exclude:
-      - org.springframework.cloud.vault.config.VaultAutoConfiguration
-      - org.springframework.cloud.vault.config.VaultConfigAutoConfiguration
-
-eureka:
-  client:
-    register-with-eureka: false
-    fetch-registry: false
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,env
-  
-      

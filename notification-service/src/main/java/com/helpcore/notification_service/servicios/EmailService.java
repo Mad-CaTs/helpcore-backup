@@ -39,7 +39,7 @@ public class EmailService {
         context.setVariable("titulo", ticket.getTitulo());
         context.setVariable("descripcion", ticket.getDescripcion());
         context.setVariable("correoCreador", ticket.getCorreoCreador());
-        context.setVariable("soporte", mensajePersonalizado);
+        context.setVariable("mensajePersonalizado", mensajePersonalizado);
 
         String body = templateEngine.process("ticket-created", context);
 
