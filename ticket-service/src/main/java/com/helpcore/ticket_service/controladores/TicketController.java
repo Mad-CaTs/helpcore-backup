@@ -3,19 +3,21 @@ package com.helpcore.ticket_service.controladores;
 import com.helpcore.ticket_service.entidades.CategoriaTicket;
 import com.helpcore.ticket_service.entidades.Invitado;
 import com.helpcore.ticket_service.entidades.Ticket;
+import com.helpcore.ticket_service.entidades.dto.TicketDashboardAgenteDTO;
 import com.helpcore.ticket_service.entidades.dto.TicketInvitadoRequestDTO;
+import com.helpcore.ticket_service.entidades.dto.TicketInvitadoResponseDTO;
 import com.helpcore.ticket_service.repositorios.CategoriaTicketRepository;
 import com.helpcore.ticket_service.servicios.TicketService;
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/ticket")
@@ -98,4 +100,9 @@ public class TicketController {
         }
     }
 
+    @GetMapping("/listar-dashboard-agente")
+    public ResponseEntity<List<TicketDashboardAgenteDTO>> listarDashboard() {
+        List<TicketDashboardAgenteDTO> ticketsDTO = ticketService.listarTicketsDashboardAgente();
+        return ResponseEntity.status(HttpStatus.OK).body(ticketsDTO);
+    }
 }

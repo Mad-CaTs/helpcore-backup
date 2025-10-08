@@ -4,6 +4,7 @@ package com.helpcore.ticket_service.servicios;
 import com.helpcore.ticket_service.entidades.CategoriaTicket;
 import com.helpcore.ticket_service.entidades.Invitado;
 import com.helpcore.ticket_service.entidades.Ticket;
+import com.helpcore.ticket_service.entidades.dto.TicketDashboardAgenteDTO;
 import com.helpcore.ticket_service.entidades.dto.TicketInvitadoRequestDTO;
 import com.helpcore.ticket_service.repositorios.CategoriaTicketRepository;
 import com.helpcore.ticket_service.repositorios.InvitadoRepository;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,8 +33,50 @@ public class TicketService {
         return ticketRepository.findById(id).orElse(null);
     }
 
-    public List<Ticket> listar() {
-        return ticketRepository.findAll();
+    public List<TicketDashboardAgenteDTO> listarTicketsDashboardAgente() {
+        List<Ticket> tickets = ticketRepository.findAll();
+        List<TicketDashboardAgenteDTO> lista = new ArrayList<>();
+
+        for(Ticket ticket : tickets){
+            TicketDashboardAgenteDTO dto = new TicketDashboardAgenteDTO();
+            dto.setId(ticket.getId());
+            dto.setTitulo(ticket.getTitulo());
+            dto.setDescripcion(ticket.getDescripcion());
+            dto.setEstado(ticket.getEstado());
+            dto.setPrioridad(ticket.getPrioridad());
+            dto.setCodigoAlumno(ticket.getCodigoAlumno());
+            dto.setSede(ticket.getSede());
+
+            dto.setIdUsuarioCliente(ticket.getIdUsuarioCliente());
+            dto.setIdUsuarioAgente(ticket.getIdUsuarioAgente());
+
+            dto.setFechaCreacion(ticket.getFechaCreacion());
+            dto.setFechaAsignacion(ticket.getFechaAsignacion());
+            dto.setFechaResolucion(ticket.getFechaResolucion());
+            dto.setFechaCierre(ticket.getFechaCierre());
+
+            dto.setActivo(ticket.isActivo());
+
+            if (ticket.getInvitado() != null) {
+                TicketDashboardAgenteDTO.InvitadoSimpleDTO invitadoDTO = new TicketDashboardAgenteDTO.InvitadoSimpleDTO();
+                invitadoDTO.setId(ticket.getInvitado().getId());
+                invitadoDTO.setNombre(ticket.getInvitado().getNombre());
+                invitadoDTO.setApellido(ticket.getInvitado().getApellido());
+                invitadoDTO.setEmail(ticket.getInvitado().getEmail());
+                dto.setInvitado(invitadoDTO);
+            }
+
+            if (ticket.getCategoria() != null) {
+                TicketDashboardAgenteDTO.CategoriaSimpleDTO categoriaDTO = new TicketDashboardAgenteDTO.CategoriaSimpleDTO();
+                categoriaDTO.setId(ticket.getCategoria().getId());
+                categoriaDTO.setNombre(ticket.getCategoria().getNombre());
+                categoriaDTO.setDescripcion(ticket.getCategoria().getDescripcion());
+                dto.setCategoria(categoriaDTO);
+            }
+
+            lista.add(dto);
+        }
+        return lista;
     }
 
     public Ticket crear(Ticket ticket) {
