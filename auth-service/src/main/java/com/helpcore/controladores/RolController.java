@@ -20,8 +20,13 @@ public class RolController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Rol> crear(@RequestBody Rol rol) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(rolService.crear(rol));
+    public ResponseEntity<?> crear(@RequestBody Rol rol) {
+        try {
+            Rol nuevoRol = rolService.crear(rol);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoRol);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping("/actualizar")

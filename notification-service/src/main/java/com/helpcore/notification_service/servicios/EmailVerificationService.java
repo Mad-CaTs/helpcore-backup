@@ -22,10 +22,10 @@ public class EmailVerificationService {
 
     private static final long CODIGO_TLL_MINUTOS = 2;
 
-    public void sendVerificationCode(String email) throws Exception {
+    public String sendVerificationCode(String email) throws Exception {
         String codigoValidoActivo = redisTemplate.opsForValue().get(email);
         if (codigoValidoActivo != null) {
-            throw new Exception("No puedes generar un nuevo código: aún tienes un código válido.");
+            return "Aún tienes un código válido, ingresa tu código";
         }
 
         String code = String.valueOf(100000 + random.nextInt(900000));
@@ -45,6 +45,7 @@ public class EmailVerificationService {
         helper.setText(body, true);
 
         mailSender.send(message);
+        return "Código de verificación enviado a " + email;
     }
 
     public boolean validateCode(String email, String code) {

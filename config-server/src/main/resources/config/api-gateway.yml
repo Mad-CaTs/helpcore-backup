@@ -17,7 +17,7 @@ spring:
         - id: auth-service-protected
           uri: lb://auth-service
           predicates:
-            - Path=/api/rol/**
+            - Path=/api/rol/**, /api/menu/**, /api/rol-menu/**, /api/usuario-rol/**
           filters:
             - StripPrefix=1
             - AuthenticationFilter
@@ -26,6 +26,14 @@ spring:
           uri: lb://auth-service
           predicates:
             - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+
+        # Ruta para Notification Service
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**, /api/verification/**
           filters:
             - StripPrefix=1
 

@@ -4,6 +4,7 @@ import com.helpcore.entidades.Menu;
 import com.helpcore.servicios.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
@@ -17,6 +18,17 @@ public class MenuController {
     @GetMapping("/listar")
     public ResponseEntity<List<Menu>> listar() {
         return ResponseEntity.ok(menuService.listar());
+    }
+
+    @GetMapping("/listar/usuario")
+    public ResponseEntity<List<Menu>> listarPorUsuario(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+
+        String correo = authentication.getName();
+        List<Menu> menus = menuService.listarPorCorreo(correo);
+        return ResponseEntity.ok(menus);
     }
 
     @PostMapping("/crear")

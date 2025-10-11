@@ -47,7 +47,7 @@ public class JwtService {
 
     public boolean validarToken(final String token, final Usuario usuario){
         final String nombreUsuario = extraerUsuario(token);
-        return (nombreUsuario.equals(usuario.getNombreUsuario())) && !tokenExpirado(token);
+        return (nombreUsuario.equals(usuario.getCorreo())) && !tokenExpirado(token);
     }
 
     private boolean tokenExpirado(final String token){
@@ -65,14 +65,14 @@ public class JwtService {
 
     private String buildToken(final Usuario usuario, final long expiration, final String tokenType) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("usuario", usuario.getNombreUsuario());
-        claims.put("type", tokenType); // Campo agregado para diferenciar tokens
+        claims.put("correo", usuario.getCorreo());
+        claims.put("type", tokenType);
 
         return Jwts.builder()
                 .setId(usuario.getId().toString())
                 .addClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setSubject(usuario.getNombreUsuario())
+                .setSubject(usuario.getCorreo())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey())
                 .compact();

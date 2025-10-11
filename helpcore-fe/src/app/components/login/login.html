@@ -9,18 +9,21 @@
       <div class="form-group mb-3">
         <div class="input-group">
           <div class="input-icon">
-            <i class="bi bi-person"></i>
+            <i class="bi bi-envelope"></i>
           </div>
           <input 
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Usuario o correo electrónico"
+            type="email"
+            id="correo"
+            name="correo"
+            placeholder="Correo electrónico"
             class="form-control"
-            formControlName="nombreUsuario"
+            formControlName="correo"
             required
           >
         </div>
+        <small class="text-danger" *ngIf="loginForm.get('correo')?.invalid && loginForm.get('correo')?.touched">
+          Por favor ingresa un correo válido
+        </small>
       </div>
 
       <div class="form-group mb-3">
@@ -38,19 +41,23 @@
             required
           >
         </div>
+        <small class="text-danger" *ngIf="loginForm.get('contrasena')?.invalid && loginForm.get('contrasena')?.touched">
+          La contraseña es requerida
+        </small>
       </div>
 
       <div *ngIf="mensaje" class="error-message mb-2">
         {{ mensaje }}
       </div>
 
-      <button type="submit" class="btn-primary w-100">
+      <button type="submit" class="btn-primary w-100" [disabled]="isLoading">
         <i class="bi bi-box-arrow-in-right"></i>
-        Iniciar Sesión
+        {{ isLoading ? 'Ingresando...' : 'Iniciar Sesión' }}
       </button>
 
       <div class="form-footer">
-        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a> <br>
+        <a href="#" class="secondary-link" [routerLink]="['/register']">Regístrate</a>
       </div>
     </form>
 

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LoginRequest } from '../dto/login-request';
 import { TokenResponse } from '../dto/token-response';
+import { RegisterRequestDTO } from '../dto/register-request-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -28,15 +29,15 @@ export class AuthService {
     );
   }
 
-  register(request: any): Observable<TokenResponse> {
-    return this.http.post<TokenResponse>(`${this.baseUrl + this.path}/register`, request).pipe(
-      tap(response => {
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
-        this.isAuthenticatedSubject.next(true);
-      })
-    );
-  }
+  register(request: RegisterRequestDTO): Observable<TokenResponse> {
+      return this.http.post<TokenResponse>(`${this.baseUrl + this.path}/register`, request).pipe(
+        tap(response => {
+          localStorage.setItem('access_token', response.access_token);
+          localStorage.setItem('refresh_token', response.refresh_token);
+          this.isAuthenticatedSubject.next(true);
+        })
+      );
+    }
 
   refreshToken(): Observable<TokenResponse> {
     const refreshToken = localStorage.getItem('refresh_token');

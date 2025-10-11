@@ -17,12 +17,15 @@ public class VerificationController {
     private final EmailVerificationService emailVerificationService;
 
     @PostMapping("/enviar-correo")
-    public ResponseEntity<String> sendCode(@RequestBody EmailVerificationDto request) {
+    public ResponseEntity<Map<String, String>> sendCode(@RequestBody EmailVerificationDto request) {
+        Map<String, String> response = new HashMap<>();
         try {
-            emailVerificationService.sendVerificationCode(request.getEmail());
-            return ResponseEntity.ok("Código de verificación enviado a " + request.getEmail());
+            String message = emailVerificationService.sendVerificationCode(request.getEmail());
+            response.put("message", message);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
     }
 

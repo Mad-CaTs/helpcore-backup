@@ -5,80 +5,150 @@
       <p class="register-subtitle">Únete a HelpCore y gestiona tus tickets fácilmente</p>
     </div>
 
-    <form class="register-form" id="registroForm">
+    <form class="register-form" [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Mensaje de error general -->
+      <div class="alert alert-danger" *ngIf="errorMessage">
+        <i class="bi bi-exclamation-circle"></i>
+        {{ errorMessage }}
+      </div>
+
       <div class="form-grid">
         <!-- Nombres -->
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-person"></i></div>
-            <input type="text" id="nombres" name="nombres" placeholder="Nombres" required>
+            <input 
+              type="text" 
+              formControlName="nombres" 
+              placeholder="Nombres" 
+              [class.invalid]="isFieldInvalid('nombres')">
           </div>
+          <span class="error-message" *ngIf="isFieldInvalid('nombres')">
+            {{ getErrorMessage('nombres') }}
+          </span>
         </div>
 
         <!-- Apellidos -->
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-person"></i></div>
-            <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required>
+            <input 
+              type="text" 
+              formControlName="apellidos" 
+              placeholder="Apellidos" 
+              [class.invalid]="isFieldInvalid('apellidos')">
           </div>
+          <span class="error-message" *ngIf="isFieldInvalid('apellidos')">
+            {{ getErrorMessage('apellidos') }}
+          </span>
         </div>
 
         <!-- DNI -->
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-card-text"></i></div>
-            <input type="number" id="dni" name="dni" placeholder="DNI" required>
+            <input 
+              type="text" 
+              formControlName="dni" 
+              placeholder="DNI (8 dígitos)" 
+              maxlength="8"
+              [class.invalid]="isFieldInvalid('dni')">
           </div>
+          <span class="error-message" *ngIf="isFieldInvalid('dni')">
+            {{ getErrorMessage('dni') }}
+          </span>
         </div>
 
         <!-- Teléfono -->
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-telephone"></i></div>
-            <input type="number" id="telefono" name="telefono" placeholder="Teléfono móvil" required>
+            <input 
+              type="text" 
+              formControlName="telefono" 
+              placeholder="Teléfono móvil (9 dígitos)" 
+              maxlength="9"
+              [class.invalid]="isFieldInvalid('telefono')">
           </div>
+          <span class="error-message" *ngIf="isFieldInvalid('telefono')">
+            {{ getErrorMessage('telefono') }}
+          </span>
         </div>
 
         <!-- Código de alumno -->
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-mortarboard"></i></div>
-            <input type="text" id="codigo" name="codigo" placeholder="Código de alumno" required>
+            <input 
+              type="text" 
+              formControlName="codigo" 
+              placeholder="Código de alumno" 
+              [class.invalid]="isFieldInvalid('codigo')">
           </div>
+          <span class="error-message" *ngIf="isFieldInvalid('codigo')">
+            {{ getErrorMessage('codigo') }}
+          </span>
         </div>
 
         <!-- Sede -->
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-building"></i></div>
-            <input type="text" id="sede" name="sede" placeholder="Sede" required>
+            <input 
+              type="text" 
+              formControlName="sede" 
+              placeholder="Sede" 
+              [class.invalid]="isFieldInvalid('sede')">
           </div>
+          <span class="error-message" *ngIf="isFieldInvalid('sede')">
+            {{ getErrorMessage('sede') }}
+          </span>
         </div>
 
         <!-- Correo -->
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-envelope"></i></div>
-            <input type="email" id="correo" name="correo" placeholder="Correo electrónico activo" required>
+            <input 
+              type="email" 
+              formControlName="correo" 
+              placeholder="Correo electrónico activo" 
+              [class.invalid]="isFieldInvalid('correo')">
           </div>
+          <span class="error-message" *ngIf="isFieldInvalid('correo')">
+            {{ getErrorMessage('correo') }}
+          </span>
         </div>
 
         <!-- Contraseña -->
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-lock"></i></div>
-            <input type="password" id="password" name="password" placeholder="Contraseña" required>
+            <input 
+              type="password" 
+              formControlName="contrasena" 
+              placeholder="Contraseña (mínimo 6 caracteres)" 
+              [class.invalid]="isFieldInvalid('contrasena')">
           </div>
+          <span class="error-message" *ngIf="isFieldInvalid('contrasena')">
+            {{ getErrorMessage('contrasena') }}
+          </span>
         </div>
       </div>
 
-      <button type="submit" class="btn-primary w-100">
-        <i class="bi bi-person-plus"></i>
-        Registrarse
+      <button type="submit" class="btn-primary w-100" [disabled]="loading">
+        <span *ngIf="!loading">
+          <i class="bi bi-person-plus"></i>
+          Registrarse
+        </span>
+        <span *ngIf="loading" class="spinner"></span>
       </button>
 
       <div class="form-footer">
-        <a href="#" class="secondary-link" [routerLink]="['/login']">¿Ya tienes una cuenta? Inicia sesión</a>
+        <a class="secondary-link" [routerLink]="['/login']">
+          ¿Ya tienes una cuenta? Inicia sesión
+        </a>
       </div>
     </form>
 

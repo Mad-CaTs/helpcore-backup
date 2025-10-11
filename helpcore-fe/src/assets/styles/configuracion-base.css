@@ -1,0 +1,42 @@
+.container-fluid {
+    padding: 2rem;
+}
+
+.config-container {
+    max-width: 1200px;
+    margin: 0 auto; 
+}
+
+.config-title {
+    font-size: 2rem;
+    color: #343a40;
+    margin-bottom: 0.5rem;
+}
+
+.config-subtitle {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+
+.mb-4 {
+    margin-bottom: 1.5rem !important; 
+}
+
+
+.card {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.card-body {
+    padding: 1.5rem; 
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    margin-bottom: 0;
+}

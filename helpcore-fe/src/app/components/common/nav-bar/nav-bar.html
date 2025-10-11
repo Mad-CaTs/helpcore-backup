@@ -24,24 +24,20 @@
 
           <div class="collapse navbar-collapse" id="navbarHelpCore">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" [class.active]="activeLink === 'inicio'" (click)="setActive('inicio')"
-                  routerLink="index">
-                  <i></i> Inicio
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" [class.active]="activeLink === 'faq'" (click)="setActive('faq')" routerLink="faq">
-                  <i></i> FAQ
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" [class.active]="activeLink === 'contacto'" (click)="setActive('contacto')"
-                  routerLink="contacto">
-                  <i></i> Contacto
+
+              <!-- Menús dinámicos -->
+              <li *ngFor="let menu of menus" class="nav-item">
+                <a
+                  class="nav-link"
+                  [class.active]="activeLink === menu.nombre"
+                  (click)="setActive(menu.nombre)"
+                  [routerLink]="menu.url"
+                >
+                  <i class="bi bi-dot"></i> {{ menu.nombre }}
                 </a>
               </li>
 
+              <!-- Login / Logout móvil -->
               <li class="nav-item d-lg-none">
                 <div *ngIf="isAuthenticated$ | async" class="user-info">
                   <i class="bi bi-person-circle"></i>
@@ -60,6 +56,7 @@
         </div>
       </nav>
 
+      <!-- User Actions (Desktop) -->
       <div class="user-actions d-none d-lg-flex align-items-center ms-3">
         <div *ngIf="isAuthenticated$ | async; else notLoggedIn" class="user-info">
           <i class="bi bi-person-circle"></i>
@@ -70,18 +67,17 @@
         </div>
 
         <ng-template #notLoggedIn>
-          <button class="btn btn-sm ms-2 text-white bg-black" (click)="onLogin()">
+          <button id="login-btn" class="btn btn-sm ms-2 text-white bg-black" (click)="onLogin()">
             <i class="bi bi-box-arrow-in-right"></i>
             <span>Iniciar Sesión</span>
           </button>
 
-          <button class="btn btn-sm ms-2" (click)="onRegister()">
+          <button id="login-btn-mobile" class="btn btn-sm ms-2" (click)="onRegister()">
             <i class="bi bi-person-plus"></i>
             <span>Crear nueva cuenta</span>
           </button>
         </ng-template>
       </div>
-
     </div>
   </div>
 </header>

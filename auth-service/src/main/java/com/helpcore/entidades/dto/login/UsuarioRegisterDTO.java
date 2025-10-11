@@ -4,6 +4,12 @@ import lombok.Data;
 
 @Data
 public class UsuarioRegisterDTO {
-    private String nombreUsuario;
+    private String nombres;
+    private String apellidos;
+    private String dni;
+    private String telefono;
+    private String codigo;
+    private String sede;
+    private String correo;
     private String contrasena;
 }

@@ -1,5 +1,6 @@
 package com.helpcore.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "usuarios"})
 public class Rol {
 
     @Id
@@ -45,5 +47,6 @@ public class Rol {
             joinColumns = @JoinColumn(name = "id_rol"),
             inverseJoinColumns = @JoinColumn(name = "id_menu")
     )
+    @JsonIgnoreProperties({"roles", "menuPadre", "submenus"})
     private List<Menu> menus;
 }

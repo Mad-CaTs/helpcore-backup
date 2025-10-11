@@ -10,5 +10,8 @@ import com.helpcore.entidades.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
-    Optional<Usuario> findByNombreUsuario(String nombreUsuario);
+    Optional<Usuario> findByCorreo(String correo);
+    boolean existsByCorreo(String correo);
+    boolean existsByDni(String dni);
+    boolean existsByCodigoAlumno(String codigoAlumno);
 }

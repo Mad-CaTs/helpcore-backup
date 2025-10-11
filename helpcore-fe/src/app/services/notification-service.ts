@@ -1,32 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Notyf } from 'notyf';
+import { Injectable } from "@angular/core";
+import { environment } from "../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class AlertService {
-  private notyf: Notyf;
+export class NotificationService{
+    private baseUrl = environment.apiUrl;
+    private notificationPath = environment.notificationService;
+    private verificationPath = environment.verificationService;
 
-  constructor() {
-    this.notyf = new Notyf({
-      duration: 2000,
-      position: { x: 'right', y: 'top' },
-      dismissible: true
-    });
-  }
+    constructor(private http: HttpClient) {}
 
-  success(message: string) {
-    this.notyf.success(message);
-  }
+    enviarCodigo(email: string): Observable<any>{
+        return this.http.post(`${this.baseUrl + this.verificationPath}/enviar-correo`, {email})
+    }
 
-  error(message: string) {
-    this.notyf.error(message);
-  }
-
-  info(message: string) {
-    this.notyf.open({
-      type: 'info',
-      message
-    });
-  }
+    validarCodigo(email: string, code: string): Observable<any>{
+        return this.http.post(`${this.baseUrl + this.verificationPath}/validar-codigo`, {email, code});
+    }
 }

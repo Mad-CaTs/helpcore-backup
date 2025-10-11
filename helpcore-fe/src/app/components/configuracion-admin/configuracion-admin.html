@@ -1,0 +1,169 @@
+<div class="container-fluid py-4">
+    <div class="config-container">
+        <div class="config-header">
+            <h1 class="config-title">
+                <i class="bi bi-gear-fill me-2"></i>
+                Panel de Configuración
+            </h1>
+            <p class="config-subtitle">Administra los parámetros del sistema de tickets</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="config-card">
+                    <div class="config-card-icon bg-primary">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div class="config-card-body">
+                        <h3 class="config-card-title">Gestión de Roles</h3>
+                        <p class="config-card-description">
+                            Administra roles de usuario.
+                        </p>
+                        <a [routerLink]="['/configuracion/roles']" class="btn btn-dark btn-config">
+                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="config-card">
+                    <div class="config-card-icon bg-success">
+                        <i class="bi bi-list-check"></i>
+                    </div>
+                    <div class="config-card-body">
+                        <h3 class="config-card-title">Gestión de menús</h3>
+                        <p class="config-card-description">
+                            Administra los menús de plataforma.
+                        </p>
+                        <a [routerLink]="['/configuracion/menus']" class="btn btn-dark btn-config">
+                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="config-card">
+                    <div class="config-card-icon bg-danger">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+                    <div class="config-card-body">
+                        <h3 class="config-card-title">Accesos</h3>
+                        <p class="config-card-description">
+                            Configura los accesos que tendrá cada rol
+                        </p>
+                        <a [routerLink]="['/configuracion/rol-menu']" class="btn btn-dark btn-config">
+                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="config-card">
+                    <div class="config-card-icon bg-warning">
+                        <i class="bi bi-tags-fill"></i>
+                    </div>
+                    <div class="config-card-body">
+                        <h3 class="config-card-title">Roles de usuario</h3>
+                        <p class="config-card-description">
+                            Administra los roles de cada usuario
+                        </p>
+                        <a [routerLink]="['/configuracion/roles-usuario']" class="btn btn-dark btn-config">
+                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="config-card">
+                    <div class="config-card-icon bg-info">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div class="config-card-body">
+                        <h3 class="config-card-title">Departamentos</h3>
+                        <p class="config-card-description">
+                            Gestiona departamentos y asignación de agentes por área
+                        </p>
+                        <a href="config-departments.html" class="btn btn-dark btn-config">
+                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="config-card">
+                    <div class="config-card-icon bg-secondary">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="config-card-body">
+                        <h3 class="config-card-title">SLA y Tiempos</h3>
+                        <p class="config-card-description">
+                            Define acuerdos de nivel de servicio y tiempos de respuesta
+                        </p>
+                        <a href="config-sla.html" class="btn btn-dark btn-config">
+                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="config-card">
+                    <div class="config-card-icon bg-purple">
+                        <i class="bi bi-envelope-fill"></i>
+                    </div>
+                    <div class="config-card-body">
+                        <h3 class="config-card-title">Plantillas de Email</h3>
+                        <p class="config-card-description">
+                            Personaliza plantillas de notificaciones por correo electrónico
+                        </p>
+                        <a href="config-emails.html" class="btn btn-dark btn-config">
+                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="config-card">
+                    <div class="config-card-icon bg-dark">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
+                    <div class="config-card-body">
+                        <h3 class="config-card-title">Reglas de Automatización</h3>
+                        <p class="config-card-description">
+                            Configura reglas automáticas para asignación y escalamiento
+                        </p>
+                        <!-- Changed button text to "Configurar" and made it black -->
+                        <a href="config-automation.html" class="btn btn-dark btn-config">
+                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Settings -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="config-card">
+                    <div class="config-card-icon bg-teal">
+                        <i class="bi bi-sliders"></i>
+                    </div>
+                    <div class="config-card-body">
+                        <h3 class="config-card-title">Configuración General</h3>
+                        <p class="config-card-description">
+                            Ajustes generales del sistema, idioma, zona horaria y más
+                        </p>
+                        <!-- Changed button text to "Configurar" and made it black -->
+                        <a href="config-general.html" class="btn btn-dark btn-config">
+                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

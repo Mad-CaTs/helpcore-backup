@@ -53,9 +53,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         final String jwtToken = authHeader.substring(7);
-        final String nombreUsuario = jwtService.extraerUsuario(jwtToken);
+        final String correo = jwtService.extraerUsuario(jwtToken);
 
-        if (nombreUsuario == null || SecurityContextHolder.getContext().getAuthentication() != null) {
+        if (correo == null || SecurityContextHolder.getContext().getAuthentication() != null) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -67,15 +67,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        final Usuario loadUser = usuarioRepository.findByNombreUsuario(nombreUsuario)
+        final Usuario loadUser = usuarioRepository.findByCorreo(correo)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
         UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
-                .username(loadUser.getNombreUsuario())
+                .username(loadUser.getCorreo())
                 .password(loadUser.getContrasena())
                 .build();
 
-        final Optional<Usuario> usuario = usuarioRepository.findByNombreUsuario(userDetails.getUsername());
+        final Optional<Usuario> usuario = usuarioRepository.findByCorreo(userDetails.getUsername());
 
         if (usuario.isEmpty()) {
             filterChain.doFilter(request, response);

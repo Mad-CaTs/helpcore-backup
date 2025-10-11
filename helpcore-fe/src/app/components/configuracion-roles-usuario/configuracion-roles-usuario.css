@@ -1,0 +1,88 @@
+@import '../../../assets/styles/configuracion-base.css';
+
+
+
+.card-check {
+    border: 2px solid #dee2e6;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card-check:hover {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 123, 255, 0.2);
+}
+
+.card-check.card-selected {
+    border-color: #007bff;
+    background-color: #e7f1ff;
+}
+
+.card-check .form-check-input {
+    cursor: pointer;
+}
+
+.card-check .form-check-label {
+    width: 100%;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.badge {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+}
+
+.btn-editar-roles {
+    transition: all 0.2s ease;
+}
+
+.btn-editar-roles:hover {
+    transform: scale(1.1);
+    background-color: #343a40 !important;
+    color: white !important;
+}
+
+.alert-info {
+    border-left: 4px solid #0c5460;
+}
+
+.alert-warning {
+    border-left: 4px solid #856404;
+}
+
+.alert-secondary {
+    border-left: 4px solid #383d41;
+}
+
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .config-title {
+        font-size: 1.5rem;
+    }
+
+    .modal-lg {
+        max-width: 95%;
+    }
+
+    .row.g-3 > .col-md-6 {
+        width: 100%;
+    }
+}
+
+.form-check-input:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.alert-info .bi-person-circle {
+    color: #0c5460;
+}

@@ -11,7 +11,7 @@ import { AlertService } from '../../services/alert-service';
   styleUrl: './login.css'
 })
 export class Login {
- loginForm: FormGroup;
+  loginForm: FormGroup;
   mensaje: string | null = null;
   isLoading = false;
 
@@ -19,11 +19,10 @@ export class Login {
     private formBuilder: FormBuilder, 
     private authService: AuthService,
     private router: Router,
-
     private notyf: AlertService
   ) {
     this.loginForm = this.formBuilder.group({
-      nombreUsuario: ['', [Validators.required, Validators.minLength(3)]],
+      correo: ['', [Validators.required, Validators.email]],
       contrasena: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
@@ -37,33 +36,32 @@ export class Login {
       this.authService.login(this.loginForm.value).subscribe({
         next: () => {
           this.isLoading = false;
+          this.notyf.success("Login exitoso.");
           
           setTimeout(() => {
             this.router.navigate(['/inicio']);
-          }, 1000);
-
-          this.notyf.success("Login exitoso.")
-          
-          
+          }, 500);
         },
         error: (error) => {
           this.isLoading = false;
-
           
           if (error.status === 401) {
-            this.notyf.error("Usuario no existe.")
+            this.notyf.error("Correo o contraseña incorrectos.");
           } else if (error.status === 0) {
             this.mensaje = "Error de conexión. Verifica que el servidor esté corriendo.";
-          } else if(error.status === 500){
-            this.notyf.error("Error en login.")
-          } 
-          else {
+          } else if (error.status === 500) {
+            this.notyf.error("Error en login.");
+          } else {
             this.mensaje = "Ha ocurrido un error inesperado.";
           }
         }
       });
     } else {
-      this.mensaje = "Por favor completa todos los campos correctamente.";
+      if (this.loginForm.get('correo')?.hasError('email')) {
+        this.mensaje = "Por favor ingresa un correo electrónico válido.";
+      } else {
+        this.mensaje = "Por favor completa todos los campos correctamente.";
+      }
     }
   }
 }

@@ -1,0 +1,130 @@
+<div class="container-fluid py-4">
+    <div class="config-container">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a [routerLink]="['/configuracion']">
+                        <i class="bi bi-gear-fill me-1"></i>
+                        Configuración
+                    </a></li>
+                <li class="breadcrumb-item active" aria-current="page">Asignación de Menús a Roles</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="config-title mb-2">
+                    <i class="bi bi-diagram-3 me-2"></i>
+                    Asignación de Menús a Roles
+                </h1>
+                <p class="config-subtitle mb-0">Gestiona los permisos de acceso a menús por rol</p>
+            </div>
+        </div>
+
+        <!-- Selector de Rol -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <label for="rolSelect" class="form-label fw-bold">
+                            <i class="bi bi-shield-check me-2"></i>
+                            Seleccionar Rol
+                        </label>
+                        <select class="form-select" id="rolSelect" (change)="onRolChange($event)">
+                            <option value="">-- Seleccione un rol --</option>
+                            <option *ngFor="let rol of roles" [value]="rol.id">
+                                {{ rol.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-6" *ngIf="rolSeleccionado">
+                        <div class="alert alert-info mb-0 d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <div>
+                                <strong>Rol seleccionado:</strong> {{ rolSeleccionado.nombre }}
+                                <br>
+                                <small>{{ rolSeleccionado.descripcion || 'Sin descripción' }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="rolSeleccionado" class="row">
+            <!-- Menús Disponibles -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-list-ul me-2"></i>
+                            Menús Disponibles
+                        </h5>
+                        <button 
+                            class="btn btn-primary btn-sm rounded-pill"
+                            (click)="asignarMenusSeleccionados()"
+                            [disabled]="menusSeleccionados.size === 0">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            Agregar Seleccionados ({{ menusSeleccionados.size }})
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="menusDisponiblesTable" class="table table-striped table-borderless align-middle w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 50px;">
+                                            <i class="bi bi-check-square"></i>
+                                        </th>
+                                        <th>Nombre</th>
+                                        <th>URL</th>
+                                        <th>Menú Padre</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menús Asignados -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-check2-circle me-2"></i>
+                            Menús Asignados
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="menusAsignadosTable" class="table table-striped table-borderless align-middle w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>URL</th>
+                                        <th>Menú Padre</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensaje cuando no hay rol seleccionado -->
+        <div *ngIf="!rolSeleccionado" class="card shadow-sm">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-inbox display-1 text-muted mb-3"></i>
+                <h5 class="text-muted">Selecciona un rol para gestionar sus menús</h5>
+                <p class="text-muted mb-0">Utiliza el selector superior para comenzar</p>
+            </div>
+        </div>
+    </div>
+</div>

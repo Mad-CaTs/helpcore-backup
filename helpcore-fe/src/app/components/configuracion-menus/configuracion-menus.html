@@ -1,0 +1,78 @@
+<div class="container-fluid py-4">
+    <div class="config-container">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a [routerLink]="['/configuracion']">
+                        <i class="bi bi-gear-fill me-1"></i>
+                        Configuración
+                    </a></li>
+                <li class="breadcrumb-item active" aria-current="page">Gestión de Menús</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="config-title mb-2">
+                    <i class="bi bi-list-ul me-2"></i>
+                    Gestión de Menús
+                </h1>
+                <p class="config-subtitle mb-0">Administra los menús del sistema y su estructura</p>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="menusTable" class="table table-striped table-borderless align-middle w-100">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>URL</th>
+                                <th>Menú Padre</th>
+                                <th>Estado</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editMenuModal" tabindex="-1" aria-labelledby="editMenuModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="editMenuModalLabel">
+                    <i class="bi bi-pencil me-2"></i>
+                    Editar Menú
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="menuNombre" class="form-label">Nombre del Menú</label>
+                        <input type="text" class="form-control" id="menuNombre" placeholder="Ej: Dashboard"
+                            [(ngModel)]="menuEditData.nombre" name="nombreMenu">
+                    </div>
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <small>La URL del menú no se puede modificar desde esta interfaz.</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary rounded-pill"
+                    (click)="cerrarModalEdicion()">Cancelar</button>
+                <button type="button" class="btn btn-primary rounded-pill" (click)="guardarEdicion()">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Actualizar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

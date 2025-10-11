@@ -5,14 +5,14 @@ spring:
   application:
     name: ticket-service
   datasource:
-    url: jdbc:mysql://localhost:3306/DB_HELPCORE_OPERATIVA?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/DB_HELPCORE_OPERATIVA?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: mysql
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate:

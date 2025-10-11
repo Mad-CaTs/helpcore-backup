@@ -1,0 +1,261 @@
+/* Estilos minimalistas y modernos - Rol Menu */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+/* General */
+.container-fluid {
+    padding: 2rem;
+}
+
+.config-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb-item a,
+.breadcrumb-item.active {
+    color: #495057;
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    font-weight: 500;
+}
+
+/* Titles */
+.config-title {
+    font-size: 2rem;
+    color: #343a40;
+    margin-bottom: 0.5rem;
+}
+
+.config-subtitle {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.card-header {
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #343a40;
+    border-color: #343a40;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #23272b;
+    border-color: #23272b;
+}
+
+.btn-primary:disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    opacity: 0.65;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+    border-color: #545b62;
+}
+
+.btn-light {
+    color: #343a40;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.btn-light:hover {
+    background-color: #dae0e5;
+    border-color: #dae0e5;
+}
+
+/* Form Controls */
+.form-select,
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.form-select:focus,
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: 0;
+}
+
+/* Badges */
+.badge {
+    font-weight: 500;
+}
+
+/* Alerts */
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+/* Table */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    color: #495057;
+    background-color: #f8f9fa;
+}
+
+.table tbody td {
+    color: #495057;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Checkboxes */
+.form-check-input {
+    cursor: pointer;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.form-check-input:checked {
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+/* DataTables */
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: 0;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.375rem 0.75rem;
+    margin: 0 0.125rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    background-color: #fff;
+    color: #495057 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #e9ecef !important;
+    border-color: #ced4da;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #343a40 !important;
+    border-color: #343a40;
+    color: #fff !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    color: #6c757d !important;
+    background-color: #fff !important;
+    border-color: #ced4da;
+    cursor: not-allowed;
+}
+
+/* Spacing */
+#menusDisponiblesTable_wrapper .dataTables_length,
+#menusDisponiblesTable_wrapper .dataTables_filter,
+#menusAsignadosTable_wrapper .dataTables_length,
+#menusAsignadosTable_wrapper .dataTables_filter {
+    margin-bottom: 1rem;
+}
+
+#menusDisponiblesTable_wrapper .dataTables_paginate,
+#menusAsignadosTable_wrapper .dataTables_paginate {
+    margin-top: 1rem;
+}
+
+/* Empty state */
+.bi-inbox {
+    opacity: 0.3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .config-container {
+        max-width: 100%;
+    }
+    
+    .col-lg-6 {
+        margin-bottom: 1rem !important;
+    }
+}

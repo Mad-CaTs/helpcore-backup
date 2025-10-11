@@ -1,0 +1,109 @@
+<div class="container-fluid py-4">
+    <div class="config-container">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a [routerLink]="['/configuracion']">
+                        <i class="bi bi-gear-fill me-1"></i>
+                        Configuración
+                    </a></li>
+                <li class="breadcrumb-item active" aria-current="page">Gestión de Roles</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="config-title mb-2">
+                    <i class="bi bi-person-badge me-2"></i>
+                    Gestión de Roles
+                </h1>
+                <p class="config-subtitle mb-0">Administra roles de usuario y sus permisos</p>
+            </div>
+            <button class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+                <i class="bi bi-plus-circle me-2"></i>
+                Nuevo Rol
+            </button>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="rolesTable" class="table table-striped table-borderless align-middle w-100">
+                        <thead>
+                            <tr>
+                                <th>Rol</th>
+                                <th>Descripción</th>
+                                <th>Menús</th>
+                                <th>Estado</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addRoleModal" tabindex="-1" aria-labelledby="addRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="addRoleModalLabel">
+                    <i class="bi bi-plus-circle me-2"></i>
+                    Nuevo Rol
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="rolNombre" class="form-label">Nombre del Rol</label>
+                        <input type="text" class="form-control" id="rolNombre" placeholder="Ej: Técnico"
+                            [(ngModel)]="nuevoRol.nombre" name="nombreRol">
+                    </div>
+                    <div class="mb-3">
+                        <label for="rolDescripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="rolDescripcion" rows="3"
+                            placeholder="Describe las responsabilidades de este rol..."
+                            [(ngModel)]="nuevoRol.descripcion" name="descripcionRol"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary rounded-pill" (click)="guardarRol()">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Guardar Rol
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="editRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="editRoleModalLabel">Editar Rol</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="rolNombre" class="form-label">Nombre</label>
+                    <input type="text" id="rolNombre" class="form-control" [(ngModel)]="rolEditData.nombre">
+                </div>
+                <div class="mb-3">
+                    <label for="rolDescripcion" class="form-label">Descripción</label>
+                    <textarea id="rolDescripcion" class="form-control" [(ngModel)]="rolEditData.descripcion"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary rounded-pill"
+                    (click)="cerrarModalEdicion()">Cancelar</button>
+                <button type="button" class="btn btn-primary rounded-pill" (click)="guardarEdicion()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

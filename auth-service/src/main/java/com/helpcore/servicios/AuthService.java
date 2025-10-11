@@ -2,6 +2,8 @@ package com.helpcore.servicios;
 
 import java.util.List;
 
+import com.helpcore.entidades.Rol;
+import com.helpcore.repositorios.RolRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,32 +30,58 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    private final RolRepository rolRepository;
+
     public TokenResponseDTO registrar(UsuarioRegisterDTO dto) {
+        if (usuarioRepository.existsByCorreo(dto.getCorreo())) {
+            throw new IllegalArgumentException("El correo ya está registrado.");
+        }
+
+        if (usuarioRepository.existsByDni(dto.getDni())) {
+            throw new IllegalArgumentException("El DNI ya está registrado.");
+        }
+
+        if (dto.getCodigo() != null && usuarioRepository.existsByCodigoAlumno(dto.getCodigo())) {
+            throw new IllegalArgumentException("El código de alumno ya está registrado.");
+        }
+
+        Rol rolUsuario = rolRepository.findByNombre("Usuario")
+                .orElseThrow(() -> new IllegalStateException("Rol 'Usuario' no encontrado en el sistema"));
+
+
         Usuario usuario = Usuario.builder()
-                .nombreUsuario(dto.getNombreUsuario())
+                .nombres(dto.getNombres())
+                .apellidos(dto.getApellidos())
+                .dni(dto.getDni())
+                .telefono(dto.getTelefono())
+                .codigoAlumno(dto.getCodigo())
+                .sede(dto.getSede())
+                .correo(dto.getCorreo())
                 .contrasena(passwordEncoder.encode(dto.getContrasena()))
                 .activo(true)
+                .roles(List.of(rolUsuario))
                 .build();
 
         Usuario usuarioGuardado = usuarioRepository.save(usuario);
 
-        var jwtToken = jwtService.generarToken(usuario);
-        var refreshToken = jwtService.generarRefreshToken(usuario);
+        var jwtToken = jwtService.generarToken(usuarioGuardado);
+        var refreshToken = jwtService.generarRefreshToken(usuarioGuardado);
 
         guardarTokenUsuario(usuarioGuardado, jwtToken);
         return new TokenResponseDTO(jwtToken, refreshToken);
     }
 
+
     public TokenResponseDTO login(UsuarioLoginDTO request) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getNombreUsuario(),
+                            request.getCorreo(),
                             request.getContrasena()));
         } catch (Exception ex) {
             throw new UsernameNotFoundException("Usuario o contraseña asdasdasd");
         }
-        Usuario usuario = usuarioRepository.findByNombreUsuario(request.getNombreUsuario()).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        Usuario usuario = usuarioRepository.findByCorreo(request.getCorreo()).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         var jwtToken = jwtService.generarToken(usuario);
         var refreshToken = jwtService.generarRefreshToken(usuario);
 
@@ -94,14 +122,14 @@ public class AuthService {
         }
 
         final String refreshToken = authHeader.substring(7);
-        final String nombreUsuario = jwtService.extraerUsuario(refreshToken);
+        final String correo = jwtService.extraerUsuario(refreshToken);
 
-        if (nombreUsuario == null) {
+        if (correo == null) {
             throw new IllegalArgumentException("Token inválido");
         }
 
-        final Usuario usuario = usuarioRepository.findByNombreUsuario(nombreUsuario)
-                .orElseThrow(() -> new UsernameNotFoundException(nombreUsuario));
+        final Usuario usuario = usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() -> new UsernameNotFoundException(correo));
 
         if (!jwtService.validarToken(refreshToken, usuario)) {
             throw new IllegalArgumentException("Token inválido");

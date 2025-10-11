@@ -13,7 +13,7 @@ import com.helpcore.entidades.Token;
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Integer> {
     @Query("""
-        SELECT t FROM tb_token t
+        SELECT t FROM Token t
         WHERE t.usuario.id = :id AND (t.expirado = false OR t.removido = false)
     """)
     List<Token> findAllValidTokensByUserId(@Param("id") Integer id);

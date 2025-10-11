@@ -11,8 +11,7 @@
     <div class="form-row">
       <div class="form-group">
         <label for="nombres">Nombres <span class="required">*</span></label>
-        <input type="text" id="nombres" class="form-input" placeholder="Ingrese sus nombres"
-          formControlName="nombres">
+        <input type="text" id="nombres" class="form-input" placeholder="Ingrese sus nombres" formControlName="nombres">
       </div>
 
       <div class="form-group">
@@ -61,10 +60,30 @@
       <label for="email">Correo electrónico activo <span class="required">*</span></label>
       <div class="email-row">
         <input type="email" id="email" class="form-input" placeholder="ejemplo@correo.com" formControlName="email">
-        <button type="button" class="btn btn-secondary" [disabled]="!ticketForm.get('email')?.valid">
+        <button type="button" class="btn btn-secondary" (click)="enviarCodigo()"
+          [disabled]="!ticketForm.get('email')?.valid">
           Enviar código
         </button>
       </div>
+      <small *ngIf="mostrarCodigo" style="color:#007bff; cursor:pointer;" (click)="permitirEditarCorreo()">
+        ¿Te equivocaste de correo?
+      </small>
+    </div>
+
+    <div class="form-group" *ngIf="mostrarCodigo">
+      <label for="codigoValidacion">Código de validación</label>
+      <div class="email-row">
+        <input type="text" id="codigoValidacion" class="form-input" maxlength="6" placeholder="Ingresa el código recibido" 
+          formControlName="codigoValidacion">
+        <button type="button" class="btn btn-secondary" (click)="validarCodigo()"
+          [disabled]="!ticketForm.get('codigoValidacion')?.valid || correoVerificado">
+          Validar código
+        </button>
+      </div>
+      <small *ngIf="ticketForm.get('codigoValidacion')?.invalid && ticketForm.get('codigoValidacion')?.touched"
+        style="color:red;">
+        El código debe tener 6 dígitos numéricos
+      </small>
     </div>
 
     <div class="section-title">Temas de ayuda</div>

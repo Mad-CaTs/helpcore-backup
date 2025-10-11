@@ -17,30 +17,31 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @RequiredArgsConstructor
 public class AuthenticationConfig {
-    
+
     private final UsuarioRepository usuarioRepository;
 
     @Bean
-    public UserDetailsService userDetailsService(){
-        return detalleUsuario -> {
-            final Usuario usuario_ = usuarioRepository.findByNombreUsuario(detalleUsuario).orElseThrow(
-                () -> new UsernameNotFoundException("Usuario no encontrado"));
+    public UserDetailsService userDetailsService() {
+        return correo -> {
+            final Usuario usuario = usuarioRepository.findByCorreo(correo)
+                    .orElseThrow(() -> new UsernameNotFoundException("Correo no encontrado"));
 
             return org.springframework.security.core.userdetails.User.builder()
-                    .username(usuario_.getNombreUsuario())
-                    .password(usuario_.getContrasena())
+                    .username(usuario.getCorreo())
+                    .password(usuario.getContrasena())
+                    .accountLocked(!usuario.isActivo())
                     .build();
         };
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService){
+    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-    
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
