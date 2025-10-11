@@ -1,0 +1,221 @@
+<div class="container-fluid py-4">
+    <div class="config-container">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a [routerLink]="['/configuracion']">
+                        <i class="bi bi-gear-fill me-1"></i>
+                        Configuración
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Gestión de Categorías de Tickets</li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="config-title mb-2">
+                    <i class="bi bi-tags me-2"></i>
+                    Gestión de Categorías de Tickets
+                </h1>
+                <p class="config-subtitle mb-0">Administra las categorías y subcategorías del sistema de tickets</p>
+            </div>
+            <button class="btn btn-primary rounded-pill" (click)="abrirModalCrear()">
+                <i class="bi bi-plus-circle me-2"></i>
+                Nueva Categoría
+            </button>
+        </div>
+
+        <!-- Información de estructura jerárquica -->
+        <div class="alert alert-info d-flex align-items-start mb-4" role="alert">
+            <i class="bi bi-info-circle-fill fs-5 me-3"></i>
+            <div>
+                <strong>Estructura Jerárquica</strong>
+                <p class="mb-0 mt-1">
+                    Haz clic en <i class="bi bi-chevron-right text-primary"></i> para expandir y ver las subcategorías.
+                    Las <strong>Categorías Padre</strong> 📁 pueden contener múltiples <strong>Subcategorías</strong>
+                    🏷️.
+                </p>
+            </div>
+        </div>
+
+        <!-- Tabla de categorías -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="categoriasTable" class="table table-hover table-borderless align-middle w-100">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 40%;">Nombre</th>
+                                <th style="width: 30%;">Descripción</th>
+                                <th class="text-center" style="width: 12%;">Tipo</th>
+                                <th class="text-center" style="width: 10%;">Estado</th>
+                                <th class="text-center" style="width: 8%;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- El contenido se renderiza dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Crear/Editar Categoría -->
+<div class="modal fade" id="categoriaModal" tabindex="-1" aria-labelledby="categoriaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="categoriaModalLabel">
+                    <i class="bi bi-tag me-2"></i>
+                    {{ modoEdicion ? 'Editar Categoría' : 'Nueva Categoría' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <!-- Tipo de Categoría (solo en modo crear) -->
+                    <div class="mb-4" *ngIf="!modoEdicion">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-diagram-3 me-2"></i>
+                            Tipo de Categoría <span class="text-danger">*</span>
+                        </label>
+                        <div class="btn-group w-100" role="group">
+                            <input type="radio" class="btn-check" name="tipoCategoria" id="tipoPadre" value="padre"
+                                [(ngModel)]="tipoCategoria" (change)="onTipoCategoriaChange()">
+                            <label class="btn btn-outline-primary" for="tipoPadre">
+                                <i class="bi bi-folder-fill me-2"></i>
+                                Categoría Padre
+                            </label>
+
+                            <input type="radio" class="btn-check" name="tipoCategoria" id="tipoHija" value="hija"
+                                [(ngModel)]="tipoCategoria" (change)="onTipoCategoriaChange()">
+                            <label class="btn btn-outline-info" for="tipoHija">
+                                <i class="bi bi-tag-fill me-2"></i>
+                                Subcategoría
+                            </label>
+                        </div>
+                        <small class="text-muted d-block mt-2">
+                            <i class="bi bi-lightbulb me-1"></i>
+                            {{ tipoCategoria === 'padre'
+                            ? 'Una categoría padre puede contener múltiples subcategorías.'
+                            : 'Una subcategoría debe pertenecer a una categoría padre.' }}
+                        </small>
+                    </div>
+
+                    <!-- Alerta de tipo en modo edición -->
+                    <div class="alert alert-secondary d-flex align-items-center mb-3" *ngIf="modoEdicion">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <div>
+                            <strong>Tipo actual:</strong>
+                            {{ categoriaForm.esPadre ? 'Categoría Padre' : 'Subcategoría' }}
+                            <br>
+                            <small class="text-muted">No puedes cambiar el tipo de una categoría existente</small>
+                        </div>
+                    </div>
+
+                    <!-- Categoría Padre (solo si es tipo hija) -->
+                    <div class="mb-3" *ngIf="tipoCategoria === tipos.hija">
+                        <label for="categoriaPadre" class="form-label fw-bold">
+                            <i class="bi bi-folder me-2"></i>
+                            Categoría Padre <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select form-select-lg" id="categoriaPadre"
+                            [(ngModel)]="categoriaForm.idCategoriaPadre" name="categoriaPadre" [disabled]="modoEdicion"
+                            required>
+                            <option [ngValue]="undefined" disabled>-- Selecciona una categoría padre --</option>
+                            <option *ngFor="let padre of categoriasPadre" [ngValue]="padre.id"
+                                [disabled]="modoEdicion && categoriaForm.id === padre.id">
+                                {{ padre.nombre }}
+                            </option>
+                        </select>
+
+                        <small class="text-muted" *ngIf="categoriasPadre.length === 0">
+                            <i class="bi bi-exclamation-triangle me-1"></i>
+                            No hay categorías padre disponibles. Primero crea una categoría padre.
+                        </small>
+
+                        <small class="text-muted" *ngIf="modoEdicion">
+                            <i class="bi bi-lock me-1"></i>
+                            No puedes cambiar la categoría padre de una subcategoría existente
+                        </small>
+                    </div>
+
+
+                    <!-- Nombre -->
+                    <div class="mb-3">
+                        <label for="categoriaNombre" class="form-label fw-bold">
+                            <i class="bi bi-pencil me-2"></i>
+                            Nombre de la Categoría <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control form-control-lg" id="categoriaNombre"
+                            placeholder="Ej: Hardware, Software, Redes" [(ngModel)]="categoriaForm.nombre" name="nombre"
+                            required maxlength="100">
+                        <small class="text-muted">El nombre debe ser único y descriptivo (máximo 100 caracteres)</small>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="mb-3">
+                        <label for="categoriaDescripcion" class="form-label fw-bold">
+                            <i class="bi bi-file-text me-2"></i>
+                            Descripción
+                        </label>
+                        <textarea class="form-control" id="categoriaDescripcion" rows="3"
+                            placeholder="Describe brevemente el propósito de esta categoría"
+                            [(ngModel)]="categoriaForm.descripcion" name="descripcion" maxlength="255"></textarea>
+                        <small class="text-muted">Opcional - Máximo 255 caracteres</small>
+                    </div>
+
+                    <!-- Estado (solo en edición) -->
+                    <div class="mb-3" *ngIf="modoEdicion">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="categoriaActivo"
+                                [(ngModel)]="categoriaForm.activo" name="activo">
+                            <label class="form-check-label fw-bold" for="categoriaActivo">
+                                <i class="bi bi-toggle-on me-2"></i>
+                                Categoría Activa
+                            </label>
+                        </div>
+                        <small class="text-muted">
+                            Las categorías inactivas no estarán disponibles al crear tickets
+                        </small>
+                    </div>
+
+                    <!-- Alerta informativa dinámica -->
+                    <div class="alert alert-warning d-flex align-items-start border-start border-warning border-4"
+                        role="alert" *ngIf="!modoEdicion">
+                        <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                        <div>
+                            <strong>¡Importante!</strong>
+                            <p class="mb-0 mt-1">
+                                <span *ngIf="tipoCategoria === 'padre'">
+                                    Esta categoría padre podrá contener múltiples subcategorías.
+                                    Podrás agregar subcategorías más tarde.
+                                </span>
+                                <span *ngIf="tipoCategoria === 'hija'">
+                                    Esta subcategoría quedará agrupada bajo la categoría padre seleccionada
+                                    y se mostrará indentada en la tabla.
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary rounded-pill" (click)="cerrarModal()">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-primary rounded-pill" (click)="guardar()"
+                    [disabled]="tipoCategoria === 'hija' && categoriasPadre.length === 0">
+                    <i class="bi bi-check-circle me-2"></i>
+                    {{ modoEdicion ? 'Actualizar' : 'Crear' }} Categoría
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

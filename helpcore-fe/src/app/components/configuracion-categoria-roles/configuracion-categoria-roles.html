@@ -1,0 +1,156 @@
+<div class="container-fluid py-4">
+    <div class="config-container">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a [routerLink]="['/configuracion']">
+                        <i class="bi bi-gear-fill me-1"></i>
+                        Configuración
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Asignación de Categorías a Roles</li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="config-title mb-2">
+                    <i class="bi bi-tags me-2"></i>
+                    Asignación de Categorías a Roles
+                </h1>
+                <p class="config-subtitle mb-0">Gestiona los permisos de acceso a categorías de tickets por rol</p>
+            </div>
+        </div>
+
+        <!-- Selector de Rol -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <label for="rolSelect" class="form-label fw-bold">
+                            <i class="bi bi-shield-check me-2"></i>
+                            Seleccionar Rol
+                        </label>
+                        <select class="form-select" id="rolSelect" (change)="onRolChange($event)">
+                            <option value="">-- Seleccione un rol --</option>
+                            <option *ngFor="let rol of roles" [value]="rol.id">
+                                {{ rol.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-6" *ngIf="rolSeleccionado">
+                        <div class="alert alert-info mb-0 d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <div>
+                                <strong>Rol seleccionado:</strong> {{ rolSeleccionado.nombre }}
+                                <br>
+                                <small>{{ rolSeleccionado.descripcion || 'Sin descripción' }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información de estructura jerárquica -->
+        <div *ngIf="rolSeleccionado" class="alert alert-info d-flex align-items-start mb-4" role="alert">
+            <i class="bi bi-info-circle-fill fs-5 me-3"></i>
+            <div>
+                <strong>Estructura Jerárquica</strong>
+                <p class="mb-0 mt-1">
+                    Haz clic en <i class="bi bi-chevron-right text-primary"></i> para expandir y ver las subcategorías.
+                    Las <strong>Categorías Padre</strong> 📁 pueden contener múltiples <strong>Subcategorías</strong> 🏷️.
+                </p>
+            </div>
+        </div>
+
+        <div *ngIf="rolSeleccionado" class="row">
+            <!-- Categorías Disponibles -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-list-ul me-2"></i>
+                            Categorías Disponibles
+                        </h5>
+                        <button 
+                            class="btn btn-primary btn-sm rounded-pill"
+                            (click)="asignarCategoriasSeleccionadas()"
+                            [disabled]="categoriasSeleccionadas.size === 0">
+                            <i class="bi bi-plus-circle me-1"></i>
+                            Agregar Seleccionadas ({{ categoriasSeleccionadas.size }})
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="categoriasDisponiblesTable" class="table table-hover table-borderless align-middle w-100">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-center" style="width: 50px;">
+                                            <i class="bi bi-check-square"></i>
+                                        </th>
+                                        <th style="width: 30%;">Nombre</th>
+                                        <th style="width: 30%;">Descripción</th>
+                                        <th class="text-center" style="width: 15%;">Tipo</th>
+                                        <th class="text-center" style="width: 15%;">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categorías Asignadas -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="bi bi-check2-circle me-2"></i>
+                            Categorías Asignadas
+                        </h5>
+                        <button 
+                            class="btn btn-danger btn-sm rounded-pill"
+                            (click)="quitarCategoriasSeleccionadas()"
+                            [disabled]="categoriasSeleccionadasAsignadas.size === 0">
+                            <i class="bi bi-dash-circle me-1"></i>
+                            Quitar Seleccionadas ({{ categoriasSeleccionadasAsignadas.size }})
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="categoriasAsignadasTable" class="table table-hover table-borderless align-middle w-100">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-center" style="width: 50px;">
+                                            <i class="bi bi-check-square"></i>
+                                        </th>
+                                        <th style="width: 35%;">Nombre</th>
+                                        <th style="width: 30%;">Descripción</th>
+                                        <th class="text-center" style="width: 15%;">Tipo</th>
+                                        <th class="text-center" style="width: 15%;">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensaje cuando no hay rol seleccionado -->
+        <div *ngIf="!rolSeleccionado" class="card shadow-sm">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-inbox display-1 text-muted mb-3"></i>
+                <h5 class="text-muted">Selecciona un rol para gestionar sus categorías</h5>
+                <p class="text-muted mb-0">Utiliza el selector superior para comenzar</p>
+            </div>
+        </div>
+    </div>
+</div>

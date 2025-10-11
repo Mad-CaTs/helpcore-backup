@@ -7,6 +7,14 @@ import { finalize } from 'rxjs';
 import { AlertService } from '../../services/alert-service';
 import { NotificationService } from '../../services/notification-service';
 
+interface CategoriaOption {
+  id: number;
+  nombre: string;
+  esPadre: boolean;
+  disabled: boolean;
+  indentacion: string;
+}
+
 @Component({
   selector: 'app-ticket',
   standalone: false,
@@ -19,7 +27,7 @@ export class Ticket implements OnInit {
   mostrarCodigo = false;
   correoVerificado = false;
   categoriaTickets: CategoriaTicket[] = [];
-
+  categoriasPlanas: CategoriaOption[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -44,9 +52,10 @@ export class Ticket implements OnInit {
   }
 
   listarCategoriaTickets(): void {
-    this.categoriaTicketService.listarCategoriaTicket().subscribe({
+    this.categoriaTicketService.listar().subscribe({
       next: (data) => {
         this.categoriaTickets = data;
+        this.categoriasPlanas = this.aplanarCategorias(data);
         this.isLoading = false;
       },
       error: (err) => {
@@ -54,6 +63,29 @@ export class Ticket implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  aplanarCategorias(categorias: CategoriaTicket[], nivel: number = 0): CategoriaOption[] {
+    const resultado: CategoriaOption[] = [];
+    
+    categorias.forEach(categoria => {
+      // Agregar la categoría actual
+      resultado.push({
+        id: categoria.id!,
+        nombre: categoria.nombre,
+        esPadre: categoria.esPadre,
+        disabled: categoria.esPadre, // Los padres no son seleccionables
+        indentacion: '\u00A0'.repeat(nivel * 4) // Espacios no-break para indentación
+      });
+
+      // Si tiene subcategorías, procesarlas recursivamente
+      if (categoria.subcategorias && categoria.subcategorias.length > 0) {
+        const subcategorias = this.aplanarCategorias(categoria.subcategorias, nivel + 1);
+        resultado.push(...subcategorias);
+      }
+    });
+
+    return resultado;
   }
 
   enviarCodigo(): void {
@@ -122,7 +154,6 @@ export class Ticket implements OnInit {
     this.correoVerificado = false;
     this.ticketForm.get('codigoValidacion')?.disable();
   }
-
 
   onSubmit(): void {
     console.log(this.ticketForm.value);

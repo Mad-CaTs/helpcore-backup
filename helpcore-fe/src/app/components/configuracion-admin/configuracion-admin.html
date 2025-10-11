@@ -2,164 +2,170 @@
     <div class="config-container">
         <div class="config-header">
             <h1 class="config-title">
-                <i class="bi bi-gear-fill me-2"></i>
+                <i class="bi bi-gear-wide-connected me-2"></i>
                 Panel de Configuración
             </h1>
-            <p class="config-subtitle">Administra los parámetros del sistema de tickets</p>
+            <p class="config-subtitle">Administra los módulos y parámetros principales del sistema de tickets</p>
         </div>
 
         <div class="row g-4">
+            <!-- Gestión de Roles -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="config-card">
                     <div class="config-card-icon bg-primary">
-                        <i class="bi bi-people-fill"></i>
+                        <i class="bi bi-person-gear"></i>
                     </div>
                     <div class="config-card-body">
                         <h3 class="config-card-title">Gestión de Roles</h3>
                         <p class="config-card-description">
-                            Administra roles de usuario.
+                            Define los roles del sistema y establece sus niveles de acceso y permisos.
                         </p>
                         <a [routerLink]="['/configuracion/roles']" class="btn btn-dark btn-config">
-                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                            <i class="bi bi-sliders2 me-2"></i>Configurar
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Gestión de Menús -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="config-card">
                     <div class="config-card-icon bg-success">
-                        <i class="bi bi-list-check"></i>
+                        <i class="bi bi-grid-3x3-gap-fill"></i>
                     </div>
                     <div class="config-card-body">
-                        <h3 class="config-card-title">Gestión de menús</h3>
+                        <h3 class="config-card-title">Gestión de Menús</h3>
                         <p class="config-card-description">
-                            Administra los menús de plataforma.
+                            Organiza los menús y submenús visibles en la plataforma según el rol del usuario.
                         </p>
                         <a [routerLink]="['/configuracion/menus']" class="btn btn-dark btn-config">
-                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                            <i class="bi bi-sliders2 me-2"></i>Configurar
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Accesos -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="config-card">
                     <div class="config-card-icon bg-danger">
-                        <i class="bi bi-shield-lock-fill"></i>
+                        <i class="bi bi-shield-check"></i>
                     </div>
                     <div class="config-card-body">
-                        <h3 class="config-card-title">Accesos</h3>
+                        <h3 class="config-card-title">Control de Accesos</h3>
                         <p class="config-card-description">
-                            Configura los accesos que tendrá cada rol
+                            Asigna qué módulos o funciones puede utilizar cada rol del sistema.
                         </p>
                         <a [routerLink]="['/configuracion/rol-menu']" class="btn btn-dark btn-config">
-                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                            <i class="bi bi-sliders2 me-2"></i>Configurar
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Roles de Usuario -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="config-card">
                     <div class="config-card-icon bg-warning">
-                        <i class="bi bi-tags-fill"></i>
+                        <i class="bi bi-person-badge-fill"></i>
                     </div>
                     <div class="config-card-body">
-                        <h3 class="config-card-title">Roles de usuario</h3>
+                        <h3 class="config-card-title">Roles de Usuario</h3>
                         <p class="config-card-description">
-                            Administra los roles de cada usuario
+                            Administra y asigna roles específicos a cada usuario registrado.
                         </p>
                         <a [routerLink]="['/configuracion/roles-usuario']" class="btn btn-dark btn-config">
-                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                            <i class="bi bi-sliders2 me-2"></i>Configurar
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Categorías de Tickets -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="config-card">
                     <div class="config-card-icon bg-info">
-                        <i class="bi bi-building"></i>
+                        <i class="bi bi-folder-fill"></i>
                     </div>
                     <div class="config-card-body">
-                        <h3 class="config-card-title">Departamentos</h3>
+                        <h3 class="config-card-title">Categorías de Tickets</h3>
                         <p class="config-card-description">
-                            Gestiona departamentos y asignación de agentes por área
+                            Crea, organiza y administra las categorías utilizadas para clasificar los tickets.
                         </p>
-                        <a href="config-departments.html" class="btn btn-dark btn-config">
-                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        <a [routerLink]="['/configuracion/categoria-ticket']" class="btn btn-dark btn-config">
+                            <i class="bi bi-sliders2 me-2"></i>Configurar
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Categorías por Rol -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="config-card">
                     <div class="config-card-icon bg-secondary">
-                        <i class="bi bi-clock-history"></i>
+                        <i class="bi bi-diagram-3-fill"></i>
                     </div>
                     <div class="config-card-body">
-                        <h3 class="config-card-title">SLA y Tiempos</h3>
+                        <h3 class="config-card-title">Categorías por Rol</h3>
                         <p class="config-card-description">
-                            Define acuerdos de nivel de servicio y tiempos de respuesta
+                            Asocia categorías de tickets específicas a cada rol del sistema.
                         </p>
-                        <a href="config-sla.html" class="btn btn-dark btn-config">
-                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                        <a [routerLink]="['/configuracion/categoria-roles']" class="btn btn-dark btn-config">
+                            <i class="bi bi-sliders2 me-2"></i>Configurar
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Plantillas de Email -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="config-card">
                     <div class="config-card-icon bg-purple">
-                        <i class="bi bi-envelope-fill"></i>
+                        <i class="bi bi-envelope-paper-fill"></i>
                     </div>
                     <div class="config-card-body">
-                        <h3 class="config-card-title">Plantillas de Email</h3>
+                        <h3 class="config-card-title">Plantillas de Correo</h3>
                         <p class="config-card-description">
-                            Personaliza plantillas de notificaciones por correo electrónico
+                            Diseña y personaliza las plantillas de correo usadas para notificaciones automáticas.
                         </p>
                         <a href="config-emails.html" class="btn btn-dark btn-config">
-                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                            <i class="bi bi-sliders2 me-2"></i>Configurar
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Reglas de Automatización -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="config-card">
                     <div class="config-card-icon bg-dark">
-                        <i class="bi bi-lightning-charge-fill"></i>
+                        <i class="bi bi-cpu-fill"></i>
                     </div>
                     <div class="config-card-body">
-                        <h3 class="config-card-title">Reglas de Automatización</h3>
+                        <h3 class="config-card-title">Automatización</h3>
                         <p class="config-card-description">
-                            Configura reglas automáticas para asignación y escalamiento
+                            Configura reglas automáticas para asignación, notificación y escalamiento de tickets.
                         </p>
-                        <!-- Changed button text to "Configurar" and made it black -->
                         <a href="config-automation.html" class="btn btn-dark btn-config">
-                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                            <i class="bi bi-sliders2 me-2"></i>Configurar
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- System Settings -->
+            <!-- Configuración General -->
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="config-card">
                     <div class="config-card-icon bg-teal">
-                        <i class="bi bi-sliders"></i>
+                        <i class="bi bi-sliders2-vertical"></i>
                     </div>
                     <div class="config-card-body">
                         <h3 class="config-card-title">Configuración General</h3>
                         <p class="config-card-description">
-                            Ajustes generales del sistema, idioma, zona horaria y más
+                            Ajusta opciones globales del sistema como idioma, zona horaria y políticas generales.
                         </p>
-                        <!-- Changed button text to "Configurar" and made it black -->
                         <a href="config-general.html" class="btn btn-dark btn-config">
-                            <i class="bi bi-gear-fill me-2"></i>Configurar
+                            <i class="bi bi-sliders2 me-2"></i>Configurar
                         </a>
                     </div>
                 </div>

@@ -90,14 +90,24 @@
 
     <div class="form-group full-width">
       <label for="categoria">Seleccione un tema de ayuda <span class="required">*</span></label>
-      <select id="categoria" class="form-select" formControlName="categoria">
+      <select id="categoria" class="form-select categoria-jerarquica" formControlName="categoria">
         <option value="">— Seleccione un tema de ayuda —</option>
-        <option *ngFor="let categoria of categoriaTickets" [value]="categoria.id">
-          {{ categoria.nombre }}
+        <option 
+          *ngFor="let categoria of categoriasPlanas" 
+          [value]="categoria.id"
+          [disabled]="categoria.disabled"
+          [class.categoria-padre-option]="categoria.esPadre"
+          [class.categoria-hija-option]="!categoria.esPadre">
+          {{ categoria.indentacion }}{{ categoria.nombre }}
         </option>
       </select>
 
-      <small *ngIf="categoriaTickets.length === 0 && !isLoading" class="text-danger">
+      <small class="text-muted categoria-hint">
+        <i class="bi bi-info-circle me-1"></i>
+        Las categorías en <strong>negrita</strong> son principales. Selecciona una subcategoría específica.
+      </small>
+
+      <small *ngIf="categoriasPlanas.length === 0 && !isLoading" class="text-danger">
         No hay categorías disponibles
       </small>
 

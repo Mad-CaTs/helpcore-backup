@@ -1,0 +1,457 @@
+/* Estilos para Asignación de Categorías a Roles */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+/* ========== GENERAL ========== */
+
+.container-fluid {
+    padding: 2rem;
+}
+
+.config-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ========== BREADCRUMB ========== */
+
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb-item a,
+.breadcrumb-item.active {
+    color: #495057;
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    color: #007bff;
+}
+
+.breadcrumb-item.active {
+    font-weight: 500;
+}
+
+/* ========== TÍTULOS ========== */
+
+.config-title {
+    font-size: 2rem;
+    color: #343a40;
+    margin-bottom: 0.5rem;
+}
+
+.config-subtitle {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+/* ========== CARDS ========== */
+
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem 1.5rem;
+    background-color: #f8f9fa;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* ========== BOTONES ========== */
+
+.btn-primary {
+    background-color: #343a40;
+    border-color: #343a40;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #23272b;
+    border-color: #23272b;
+}
+
+.btn-primary:disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    opacity: 0.65;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+    border-color: #545b62;
+}
+
+.btn-light {
+    color: #343a40;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.btn-light:hover {
+    background-color: #dae0e5;
+    border-color: #dae0e5;
+}
+
+/* ========== FORM CONTROLS ========== */
+
+.form-select,
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.form-select:focus,
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: 0;
+}
+
+/* ========== BADGES ========== */
+
+.badge {
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.7rem;
+}
+
+.badge.bg-warning {
+    color: #000;
+    background-color: #ffc107 !important;
+}
+
+.badge.bg-info {
+    background-color: #17a2b8 !important;
+    color: #fff;
+}
+
+.badge.bg-success {
+    background-color: #28a745 !important;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+/* ========== ALERTS ========== */
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+    border-radius: 0.5rem;
+}
+
+/* ========== TABLA Y ESTRUCTURA JERÁRQUICA ========== */
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+.table thead {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 10;
+}
+
+.table thead th {
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    color: #495057;
+    background-color: #f8f9fa;
+    padding: 1rem;
+}
+
+.table tbody td {
+    color: #495057;
+    padding: 0.75rem;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Filas de categorías padre */
+.categoria-padre-row {
+    background-color: #ffffff;
+    font-weight: 500;
+}
+
+.categoria-padre-row:hover {
+    background-color: #f8f9fa;
+    transform: translateX(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Filas de categorías hijas */
+.categoria-hija-row {
+    background-color: #fafbfc;
+}
+
+.categoria-hija-row:hover {
+    background-color: #f1f3f5;
+    transform: translateX(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Iconos de expansión */
+.icono-expandir {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    font-weight: bold;
+}
+
+.icono-expandir:hover {
+    transform: scale(1.2);
+}
+
+/* Iconos de tipo de categoría */
+.bi-folder-fill {
+    font-size: 1.1rem;
+    color: #ffc107 !important;
+}
+
+.bi-tag-fill {
+    font-size: 1rem;
+    color: #17a2b8 !important;
+}
+
+/* ========== CHECKBOXES ========== */
+
+.form-check-input {
+    cursor: pointer;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.form-check-input:checked {
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.categoria-checkbox {
+    cursor: pointer;
+}
+
+/* ========== EMPTY STATE ========== */
+
+.bi-inbox {
+    opacity: 0.3;
+}
+
+/* ========== BOTONES DE ACCIÓN ========== */
+
+.btn-agregar,
+.btn-quitar {
+    transition: all 0.2s ease;
+}
+
+.btn-agregar:hover {
+    transform: scale(1.05);
+}
+
+.btn-quitar:hover {
+    transform: scale(1.05);
+}
+
+/* ========== TRANSICIONES ========== */
+
+.table tbody tr {
+    transition: all 0.2s ease;
+}
+
+/* ========== ANIMACIONES ========== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.categoria-hija-row {
+    animation: fadeIn 0.3s ease;
+}
+
+/* ========== SCROLL PERSONALIZADO ========== */
+
+.table-responsive::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 991px) {
+    .config-container {
+        max-width: 100%;
+    }
+    
+    .col-lg-6 {
+        margin-bottom: 1rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .config-title {
+        font-size: 1.5rem;
+    }
+
+    .config-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .table {
+        font-size: 0.85rem;
+    }
+
+    .table thead th {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .bi-folder-fill,
+    .bi-tag-fill {
+        font-size: 0.9rem;
+    }
+
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* ========== UTILIDADES ========== */
+
+.text-danger {
+    font-weight: bold;
+    color: #dc3545 !important;
+}
+
+.text-muted {
+    font-size: 0.875rem;
+    color: #6c757d !important;
+}
+
+.gap-1 {
+    gap: 0.25rem !important;
+}
+
+.fs-5 {
+    font-size: 1.25rem !important;
+}
+
+.me-2 {
+    margin-right: 0.5rem !important;
+}
+
+.me-3 {
+    margin-right: 1rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.mt-2 {
+    margin-top: 0.5rem !important;
+}
+
+/* ========== MEJORAS VISUALES ========== */
+
+.rounded-pill {
+    border-radius: 50rem !important;
+}
+
+.rounded-circle {
+    border-radius: 50% !important;
+}
+
+* {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    transition-duration: 0.2s;
+}
+
+/* ========== ESTADO DESHABILITADO ========== */
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ========== HOVER EFFECTS ========== */
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}

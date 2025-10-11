@@ -9,5 +9,6 @@ export const environment = {
   menuService: '/menu',
   rolService: '/rol',
   usuarioRolService: '/usuario-rol',
-  RolMenuService: '/rol-menu'
+  rolMenuService: '/rol-menu',
+  categoriaRolService: '/rol-categoria'
 };

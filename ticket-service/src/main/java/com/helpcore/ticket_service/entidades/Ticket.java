@@ -1,5 +1,6 @@
 package com.helpcore.ticket_service.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,6 +42,7 @@ public class Ticket {
     // Relación con invitado
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_invitado")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Invitado invitado;
 
     @Column(name = "id_usuario_cliente")
@@ -51,6 +53,7 @@ public class Ticket {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_categoria",referencedColumnName = "id_categoria")
+    @JsonIgnoreProperties({"subcategorias", "categoriaPadre"})
     private CategoriaTicket categoria;
 
     @Column(name = "fecha_creacion", updatable = false)

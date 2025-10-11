@@ -1,5 +1,9 @@
 export interface CategoriaTicket {
-  id: number;
+  id?: number;
   nombre: string;
-  descripcion: string;
+  descripcion?: string;
+  idCategoriaPadre?: number;
+  subcategorias?: CategoriaTicket[];
+  activo: boolean;
+  esPadre: boolean;
 }

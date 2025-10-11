@@ -9,7 +9,7 @@ import { Menu } from '../interfaces/menu';
 })
 export class RolMenuService {
   private baseUrl = environment.apiUrl;
-  private path = '/rol-menu';
+  private path = environment.rolMenuService;
 
   constructor(private http: HttpClient) {}
 

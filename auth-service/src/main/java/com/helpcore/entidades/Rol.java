@@ -49,4 +49,12 @@ public class Rol {
     )
     @JsonIgnoreProperties({"roles", "menuPadre", "submenus"})
     private List<Menu> menus;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "tb_rol_categoria",
+            joinColumns = @JoinColumn(name = "id_rol")
+    )
+    @Column(name = "id_categoria")
+    private List<Integer> categoriasIds;
 }

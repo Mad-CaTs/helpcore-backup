@@ -13,12 +13,14 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { Ticket } from './components/ticket/ticket';
 import { ConsultarEstado } from './components/consultar-estado/consultar-estado';
 import { Register } from './components/register/register';
-import { DashboardAgente } from './components/dashboard-agente/dashboard-agente';
 import { ConfiguracionAdmin } from './components/configuracion-admin/configuracion-admin';
 import { ConfiguracionRoles } from './components/configuracion-roles/configuracion-roles';
 import { ConfiguracionMenus } from './components/configuracion-menus/configuracion-menus';
 import { ConfiguracionRolMenu } from './components/configuracion-rol-menu/configuracion-rol-menu';
 import { ConfiguracionRolesUsuario } from './components/configuracion-roles-usuario/configuracion-roles-usuario';
+import { Dashboard } from './components/dashboard/dashboard';
+import { ConfiguracionCategoriasTicket } from './components/configuracion-categorias-ticket/configuracion-categorias-ticket';
+import { ConfiguracionCategoriaRoles } from './components/configuracion-categoria-roles/configuracion-categoria-roles';
 
 
 @NgModule({
@@ -30,12 +32,14 @@ import { ConfiguracionRolesUsuario } from './components/configuracion-roles-usua
     Ticket,
     ConsultarEstado,
     Register,
-    DashboardAgente,
+    Dashboard,
     ConfiguracionAdmin,
     ConfiguracionRoles,
     ConfiguracionMenus,
     ConfiguracionRolMenu,
-    ConfiguracionRolesUsuario
+    ConfiguracionRolesUsuario,
+    ConfiguracionCategoriasTicket,
+    ConfiguracionCategoriaRoles
     
   ],
   imports: [
