@@ -35,6 +35,15 @@ spring:
     timeout: 6000ms
 
   cloud:
+    openfeign:
+      discovery:
+        enabled: true
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: full
     config:
       enabled: false
       import-check:

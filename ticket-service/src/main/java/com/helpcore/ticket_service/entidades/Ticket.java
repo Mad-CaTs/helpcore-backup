@@ -19,6 +19,9 @@ public class Ticket {
     @Column(name = "id_ticket")
     private Integer id;
 
+    @Column(name = "codigo_ticket")
+    private String codigoTicket;
+
     @Column(length = 200, nullable = false)
     private String titulo;
 
@@ -33,17 +36,11 @@ public class Ticket {
     @Column(nullable = false)
     private Prioridad prioridad = Prioridad.MEDIA;
 
-    @Column(name = "codigo_alumno", length = 15, nullable = false)
+    @Column(name = "codigo_alumno", length = 15, nullable = true)
     private String codigoAlumno;
 
-    @Column(length = 50, nullable = false)
-    private String sede;
-
-    // Relación con invitado
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_invitado")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Invitado invitado;
+    @Column(name = "id_persona")
+    private Integer idPersona;
 
     @Column(name = "id_usuario_cliente")
     private Integer idUsuarioCliente;
@@ -52,7 +49,7 @@ public class Ticket {
     private Integer idUsuarioAgente;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_categoria",referencedColumnName = "id_categoria")
+    @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
     @JsonIgnoreProperties({"subcategorias", "categoriaPadre"})
     private CategoriaTicket categoria;
 
@@ -70,6 +67,9 @@ public class Ticket {
 
     @Column(name = "activo", nullable = false)
     private boolean activo;
+
+    @Column(name = "correo_invitado", nullable = true)
+    private String correoInvitado;
 
     @PrePersist
     public void prePersist() {

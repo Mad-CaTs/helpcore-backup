@@ -5,6 +5,9 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LoginRequest } from '../dto/login-request';
 import { TokenResponse } from '../dto/token-response';
 import { RegisterRequestDTO } from '../dto/register-request-dto';
+import { TokenPayload } from '../interfaces/token-payload';
+import { jwtDecode } from 'jwt-decode';
+import { Usuario } from '../interfaces/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +27,6 @@ export class AuthService {
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
         this.isAuthenticatedSubject.next(true);
-        console.log('Tokens guardados:', response);
       })
     );
   }
@@ -38,6 +40,12 @@ export class AuthService {
         })
       );
     }
+
+  obtenerUsuarioActual(): Observable<Usuario> {
+    const id = this.getCurrentUserId();
+    return this.http.get<Usuario>(`${this.baseUrl}/persona/${id}`);
+  }
+
 
   refreshToken(): Observable<TokenResponse> {
     const refreshToken = localStorage.getItem('refresh_token');
@@ -64,11 +72,71 @@ export class AuthService {
     );
   }
 
+  private decodeToken(): TokenPayload | null {
+    const token = this.getAccessToken();
+    if (!token) return null;
+    
+    try {
+      return jwtDecode<TokenPayload>(token);
+    } catch (error) {
+      console.error('Error decodificando token:', error);
+      return null;
+    }
+  }
+
   getAccessToken(): string | null {
     return localStorage.getItem('access_token');
   }
 
   isAuthenticated(): boolean {
-    return !!this.getAccessToken();
+    const token = this.getAccessToken();
+    if (!token) return false;
+
+    const decoded = this.decodeToken();
+    if (!decoded) return false;
+
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decoded.exp > currentTime;
+  }
+
+  getUserRoles(): string[] {
+    const decoded = this.decodeToken();
+    if (!decoded) return [];
+    
+    if (decoded.roles) return decoded.roles;
+    
+    if (decoded.rol) return [decoded.rol];
+    
+    return [];
+  }
+
+  hasRole(role: string): boolean {
+    const roles = this.getUserRoles();
+    return roles.includes(role);
+  }
+
+  hasAnyRole(roles: string[]): boolean {
+    const userRoles = this.getUserRoles();
+    return roles.some(role => userRoles.includes(role));
+  }
+
+  getUserInfo(): TokenPayload | null {
+    return this.decodeToken();
+  }
+
+  getCurrentUserId(): number | null {
+    const decoded = this.decodeToken();
+    if (!decoded) return null;
+    
+    if (decoded.jti) {
+      return parseInt(decoded.jti, 10);
+    }
+    
+    return null;
+  }
+
+  getUserEmail(): string | null {
+    const decoded = this.decodeToken();
+    return decoded?.correo || decoded?.sub || null;
   }
 }

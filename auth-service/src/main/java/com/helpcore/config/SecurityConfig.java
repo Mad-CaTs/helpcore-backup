@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-    
+
     @Lazy
     private final JwtAuthFilter jwtAuthFilter;
     private final UsuarioRepository usuarioRepository;
@@ -37,7 +37,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**", "/persona/**", "/usuario/**").permitAll()  // persona no es necesaro que esté xd
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -69,14 +69,14 @@ public class SecurityConfig {
 
         final String jwtToken = token.substring(7);
         final Token tokenEncontrado = tokenRepository.findByToken(jwtToken)
-                        .orElseThrow(() -> new IllegalArgumentException("Tóken inválido"));
+                .orElseThrow(() -> new IllegalArgumentException("Tóken inválido"));
 
         tokenEncontrado.setExpirado(true);
         tokenEncontrado.setRemovido(true);
 
         tokenRepository.save(tokenEncontrado);
     }
-    
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

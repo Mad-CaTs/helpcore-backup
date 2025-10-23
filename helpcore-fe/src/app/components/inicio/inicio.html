@@ -1,5 +1,4 @@
 <hr>
-
 <main>
     <section class="welcome-section">
         <div class="container">
@@ -42,7 +41,7 @@
 
     <section class="ticket-actions">
         <div class="container">
-            <div class="actions-grid">
+            <div class="actions-grid" [class.single-card]="isAuthenticated$ | async">
                 <div class="action-card">
                     <div class="card-content">
                         <div class="card-icon circle-black">
@@ -70,7 +69,7 @@
                     </div>
                 </div>
 
-                <div class="action-card">
+                <div class="action-card" *ngIf="!(isAuthenticated$ | async)">
                     <div class="card-content">
                         <div class="card-icon circle-white">
                             <i class="bi bi-search"></i>

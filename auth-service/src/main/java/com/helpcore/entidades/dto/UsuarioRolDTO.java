@@ -1,7 +1,7 @@
-package com.helpcore.dto;
+package com.helpcore.entidades.dto;
 
+import com.helpcore.entidades.Persona;
 import com.helpcore.entidades.Usuario;
-import com.helpcore.entidades.dto.RolSimpleDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,27 +18,28 @@ import java.util.stream.Collectors;
 public class UsuarioRolDTO {
 
     private Integer id;
-    private String nombres;
-    private String apellidos;
-    private String dni;
-    private String telefono;
-    private String codigoAlumno;
-    private String sede;
     private String correo;
+    private PersonaDTO persona;
     private List<RolSimpleDTO> roles;
     private boolean activo;
     private LocalDateTime fechaCreacion;
 
     public static UsuarioRolDTO fromEntity(Usuario usuario) {
+        Persona persona = usuario.getPersona();
         return UsuarioRolDTO.builder()
                 .id(usuario.getId())
-                .nombres(usuario.getNombres())
-                .apellidos(usuario.getApellidos())
-                .dni(usuario.getDni())
-                .telefono(usuario.getTelefono())
-                .codigoAlumno(usuario.getCodigoAlumno())
-                .sede(usuario.getSede())
                 .correo(usuario.getCorreo())
+                .persona(PersonaDTO.builder()
+                        .id(persona.getId())
+                        .nombres(persona.getNombres())
+                        .apellidos(persona.getApellidos())
+                        .dni(persona.getDni())
+                        .telefono(persona.getTelefono())
+                        .codigoAlumno(persona.getCodigoAlumno())
+                        .idSede(persona.getIdSede())
+                        .activo(persona.isActivo())
+                        .fechaCreacion(persona.getFechaCreacion())
+                        .build())
                 .roles(usuario.getRoles() != null
                         ? usuario.getRoles().stream()
                         .map(RolSimpleDTO::fromEntity)

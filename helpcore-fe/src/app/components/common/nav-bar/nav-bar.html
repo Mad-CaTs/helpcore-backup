@@ -2,7 +2,6 @@
   <div class="container">
     <div class="header-content d-flex justify-content-between align-items-center">
 
-      <!-- Logo -->
       <div class="logo-section d-flex align-items-center">
         <div class="logo-icon">
           <i class="bi bi-life-preserver"></i>
@@ -13,7 +12,6 @@
         </div>
       </div>
 
-      <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
           <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
@@ -25,7 +23,6 @@
           <div class="collapse navbar-collapse" id="navbarHelpCore">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-              <!-- Menús dinámicos -->
               <li *ngFor="let menu of menus" class="nav-item">
                 <a
                   class="nav-link"
@@ -37,7 +34,6 @@
                 </a>
               </li>
 
-              <!-- Login / Logout móvil -->
               <li class="nav-item d-lg-none">
                 <div *ngIf="isAuthenticated$ | async" class="user-info">
                   <i class="bi bi-person-circle"></i>
@@ -56,7 +52,6 @@
         </div>
       </nav>
 
-      <!-- User Actions (Desktop) -->
       <div class="user-actions d-none d-lg-flex align-items-center ms-3">
         <div *ngIf="isAuthenticated$ | async; else notLoggedIn" class="user-info">
           <i class="bi bi-person-circle"></i>

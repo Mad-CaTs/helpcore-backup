@@ -25,30 +25,16 @@ public class Usuario {
     @Column(name = "id_usuario")
     private Integer id;
 
-    @Column(name = "nombres", length = 100, nullable = false)
-    private String nombres;
-
-    @Column(name = "apellidos", length = 100, nullable = false)
-    private String apellidos;
-
-    @Column(name = "dni", length = 8, unique = true, nullable = false)
-    private String dni;
-
-    @Column(name = "telefono", length = 15, nullable = false)
-    private String telefono;
-
-    @Column(name = "codigo_alumno", length = 20, unique = true, nullable = false)
-    private String codigoAlumno;
-
-    @Column(name = "sede", length = 100, nullable = false)
-    private String sede;
-
-    @Column(name = "correo", length = 100, unique = true, nullable = false)
+    @Column(nullable = false, unique = true, length = 100)
     private String correo;
 
     @JsonIgnore
     @Column(name = "contrasena", length = 255, nullable = false)
     private String contrasena;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_persona", nullable = false, unique = true)
+    private Persona persona;
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)

@@ -2,7 +2,9 @@ package com.helpcore.servicios;
 
 import java.util.List;
 
+import com.helpcore.entidades.Persona;
 import com.helpcore.entidades.Rol;
+import com.helpcore.repositorios.PersonaRepository;
 import com.helpcore.repositorios.RolRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,12 +20,14 @@ import com.helpcore.entidades.dto.login.UsuarioLoginDTO;
 import com.helpcore.entidades.dto.login.UsuarioRegisterDTO;
 import com.helpcore.repositorios.TokenRepository;
 import com.helpcore.repositorios.UsuarioRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final UsuarioRepository usuarioRepository;
+    private final PersonaRepository personaRepository;
     private final TokenRepository tokenRepository;
 
     private final PasswordEncoder passwordEncoder;
@@ -32,32 +36,40 @@ public class AuthService {
 
     private final RolRepository rolRepository;
 
+    @Transactional
     public TokenResponseDTO registrar(UsuarioRegisterDTO dto) {
         if (usuarioRepository.existsByCorreo(dto.getCorreo())) {
             throw new IllegalArgumentException("El correo ya está registrado.");
         }
 
-        if (usuarioRepository.existsByDni(dto.getDni())) {
+        if (personaRepository.existsByDni(dto.getDni())) {
             throw new IllegalArgumentException("El DNI ya está registrado.");
         }
 
-        if (dto.getCodigo() != null && usuarioRepository.existsByCodigoAlumno(dto.getCodigo())) {
+        if (dto.getCodigo() != null && personaRepository.existsByCodigoAlumno(dto.getCodigo())) {
             throw new IllegalArgumentException("El código de alumno ya está registrado.");
         }
+
+        Persona persona = Persona.builder()
+                .nombres(dto.getNombres())
+                .apellidos(dto.getApellidos())
+                .dni(dto.getDni())
+                .telefono(dto.getTelefono())
+                .codigoAlumno(dto.getCodigo())
+                .idSede(dto.getIdSede())
+                .activo(true)
+                .build();
+
+        Persona personaGuardada = personaRepository.save(persona);
 
         Rol rolUsuario = rolRepository.findByNombre("Usuario")
                 .orElseThrow(() -> new IllegalStateException("Rol 'Usuario' no encontrado en el sistema"));
 
 
         Usuario usuario = Usuario.builder()
-                .nombres(dto.getNombres())
-                .apellidos(dto.getApellidos())
-                .dni(dto.getDni())
-                .telefono(dto.getTelefono())
-                .codigoAlumno(dto.getCodigo())
-                .sede(dto.getSede())
                 .correo(dto.getCorreo())
                 .contrasena(passwordEncoder.encode(dto.getContrasena()))
+                .persona(personaGuardada)
                 .activo(true)
                 .roles(List.of(rolUsuario))
                 .build();

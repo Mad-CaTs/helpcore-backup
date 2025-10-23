@@ -23,21 +23,47 @@
                         <p style="font-size: 16px;">Se ha creado un nuevo ticket en el sistema:</p>
 
                         <table cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; margin-top: 10px;">
-                            <tr style="background-color: #f0f4ff;">
-                                <td style="font-weight: bold; width: 150px;">ID:</td>
-                                <td><span th:text="${ticketId}"></span></td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight: bold;">Título:</td>
-                                <td><span th:text="${titulo}"></span></td>
+                            <tr style="background-color: #e8f3ff;">
+                                <td style="font-weight: bold; width: 180px;">Código del Ticket:</td>
+                                <td style="font-size: 16px;">
+                                    <strong><span th:text="${codigoTicket}"></span></strong>
+                                </td>
                             </tr>
                             <tr style="background-color: #f0f4ff;">
-                                <td style="font-weight: bold;">Descripción:</td>
-                                <td><span th:text="${descripcion}"></span></td>
+                                <td style="font-weight: bold; width: 180px;">Nombre:</td>
+                                <td><span th:text="${nombres}"></span> <span th:text="${apellidos}"></span></td>
                             </tr>
                             <tr>
-                                <td style="font-weight: bold;">Creado por:</td>
-                                <td><span th:text="${correoCreador}"></span></td>
+                                <td style="font-weight: bold;">DNI:</td>
+                                <td><span th:text="${dni}"></span></td>
+                            </tr>
+                            <tr style="background-color: #f0f4ff;">
+                                <td style="font-weight: bold;">Teléfono:</td>
+                                <td><span th:text="${telefono}"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Correo:</td>
+                                <td><span th:text="${email}"></span></td>
+                            </tr>
+                            <tr style="background-color: #f0f4ff;">
+                                <td style="font-weight: bold;">Código de Alumno:</td>
+                                <td><span th:text="${codigoAlumno}"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Sede:</td>
+                                <td><span th:text="${sede}"></span></td>
+                            </tr>
+                            <tr style="background-color: #f0f4ff;">
+                                <td style="font-weight: bold;">Categoría:</td>
+                                <td><span th:text="${categoria}"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Asunto:</td>
+                                <td><span th:text="${asunto}"></span></td>
+                            </tr>
+                            <tr style="background-color: #f0f4ff;">
+                                <td style="font-weight: bold;">Comentarios:</td>
+                                <td><span th:text="${comentarios}"></span></td>
                             </tr>
                         </table>
 

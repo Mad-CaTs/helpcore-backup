@@ -6,12 +6,12 @@
 
 .ticket-card {
     background: white;
-    border-radius: 0;   /* Sin bordes redondeados si lo prefieres plano */
-    box-shadow: none;   /* 🔹 Eliminada la sombra */
+    border-radius: 0;
+    box-shadow: none;
     padding: 40px;
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;     /* 🔹 Elimina márgenes externos */
+    margin: 0 auto;
     animation: fadeInUp 0.6s ease-out;
 }
 
@@ -26,7 +26,6 @@
     }
 }
 
-/* Títulos */
 .form-header {
     text-align: left;
     margin-bottom: 30px;
@@ -45,7 +44,6 @@
     line-height: 1.5;
 }
 
-/* Secciones */
 .section-title {
     font-size: 18px;
     font-weight: bold;
@@ -55,7 +53,6 @@
     border-bottom: 2px solid #f0f0f0;
 }
 
-/* Grillas */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -71,7 +68,6 @@
     grid-column: 1 / -1;
 }
 
-/* Labels e inputs */
 .form-group label {
     display: block;
     margin-bottom: 8px;
@@ -101,7 +97,6 @@
     background-color: white;
 }
 
-/* Botones */
 .button-group {
     display: flex;
     gap: 15px;
@@ -143,7 +138,6 @@
     border-color: #ddd;
 }
 
-/* Responsivo */
 @media (max-width: 768px) {
     .ticket-card {
         padding: 30px 20px;
@@ -186,12 +180,12 @@
 }
 
 .email-row .form-input {
-  flex: 1; /* el input ocupa todo el espacio disponible */
+  flex: 1;
 }
 
 
 textarea.form-input {
-  resize: vertical; /* permite redimensionar solo hacia abajo/arriba */
+  resize: vertical; 
   min-height: 120px;
 }
 

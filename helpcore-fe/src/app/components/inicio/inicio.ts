@@ -36,7 +36,6 @@ export class Inicio {
   }
 
   testLogout() {
-    console.log('Probando logout desde inicio...');
     this.authService.logout().subscribe({
       next: (response) => {
         console.log('Logout desde inicio exitoso:', response);

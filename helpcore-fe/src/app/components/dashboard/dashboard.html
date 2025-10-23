@@ -8,26 +8,16 @@
     <div class="search-section">
       <div class="search-input-wrapper">
         <i class="bi bi-search search-icon"></i>
-        <input 
-          type="text" 
-          class="search-input"
-          placeholder="Título, código, invitado, categoría, etc"
-          [(ngModel)]="busqueda"
-          (input)="buscarTickets()">
-        <button 
-          *ngIf="busqueda" 
-          class="btn-clear-input" 
-          (click)="limpiarBusqueda()">
+        <input type="text" class="search-input" placeholder="Título, código, invitado, categoría, etc"
+          [(ngModel)]="busqueda" (input)="buscarTickets()">
+        <button *ngIf="busqueda" class="btn-clear-input" (click)="limpiarBusqueda()">
           <i class="bi bi-x-lg"></i>
         </button>
       </div>
 
       <div class="filter-select-wrapper">
         <i class="bi bi-funnel filter-icon"></i>
-        <select 
-          class="filter-select"
-          [(ngModel)]="filtroPrioridad"
-          (change)="filtrarPorPrioridad(filtroPrioridad)">
+        <select class="filter-select" [(ngModel)]="filtroPrioridad" (change)="filtrarPorPrioridad(filtroPrioridad)">
           <option value="TODAS">Todas las prioridades</option>
           <option value="URGENTE">🔴 URGENTE</option>
           <option value="ALTA">🟠 ALTA</option>
@@ -37,18 +27,14 @@
       </div>
     </div>
 
-    <button 
-      class="btn-refresh-icon" 
-      (click)="cargarTickets()" 
-      [disabled]="isLoading"
-      title="Refrescar tickets">
+    <button class="btn-refresh-icon" (click)="cargarTickets()" [disabled]="isLoading" title="Refrescar tickets">
       <i class="bi bi-arrow-clockwise" [class.spinning]="isLoading"></i>
     </button>
   </div>
 
   <div class="active-filters" *ngIf="busqueda || filtroPrioridad !== 'TODAS' || filtroEstado !== 'TODOS'">
     <span class="filters-label">Filtros activos:</span>
-    
+
     <span class="filter-tag" *ngIf="busqueda">
       <i class="bi bi-search"></i> "{{ busqueda }}"
       <button class="remove-filter" (click)="busqueda = ''; aplicarFiltros()">
@@ -172,9 +158,9 @@
           <td class="ticket-sede">{{ ticket.sede }}</td>
           <td class="ticket-fecha">{{ ticket.fechaCreacion | date:'dd/MM/yyyy' }}</td>
           <td class="ticket-acciones">
-            <button class="btn-action btn-primary" title="Ver detalle">
+            <button class="btn-action btn-primary" (click)="verDetalle(ticket)" title="Ver detalle">
               <i class="bi bi-eye"></i>
-            </button>           
+            </button>
           </td>
         </tr>
       </tbody>

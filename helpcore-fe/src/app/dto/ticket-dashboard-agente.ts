@@ -1,19 +1,18 @@
-export interface TicketDashboardAgente  {
-    id: number;
-    titulo: string;
-    estado: 'NUEVO' | 'EN_ATENCION' | 'RESUELTO' | 'CERRADO';
-    prioridad: 'BAJA' | 'MEDIA' | 'ALTA' | 'URGENTE';
-    codigoAlumno: string;
-    sede: string;
-    idUsuarioAgente: number | null;
-    fechaCreacion: string;
-
-    invitado: {
-        nombre: string;
-        apellido: string;
-    };
-
-    categoria: {
-        nombre: string;
-    };
+export interface TicketDashboardAgente {
+  id: number;
+  codigoTicket: string;
+  titulo: string;
+  estado: string;
+  prioridad: string;
+  codigoAlumno: string;
+  sede: string;
+  idUsuarioAgente?: number;
+  fechaCreacion: string;
+  invitado: {
+    nombre: string;
+    apellido: string;
+  };
+  categoria: {
+    nombre: string;
+  };
 }

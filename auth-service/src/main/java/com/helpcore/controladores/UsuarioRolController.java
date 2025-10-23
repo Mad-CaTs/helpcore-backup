@@ -1,6 +1,6 @@
 package com.helpcore.controladores;
 
-import com.helpcore.dto.UsuarioRolDTO;
+import com.helpcore.entidades.dto.UsuarioRolDTO;
 import com.helpcore.entidades.Usuario;
 import com.helpcore.servicios.UsuarioService;
 import org.springframework.http.ResponseEntity;

@@ -15,9 +15,6 @@ public class RolMenuController {
     @Autowired
     private RolMenuService rolMenuService;
 
-    /**
-     * Asignar múltiples menús a un rol (reemplaza los existentes)
-     */
     @PutMapping("/asignar/{rolId}")
     public ResponseEntity<?> asignarMenus(
             @PathVariable Integer rolId,
@@ -37,9 +34,6 @@ public class RolMenuController {
         }
     }
 
-    /**
-     * Agregar un menú a un rol (sin eliminar los existentes)
-     */
     @PostMapping("/agregar/{rolId}/menu/{menuId}")
     public ResponseEntity<?> agregarMenu(
             @PathVariable Integer rolId,
@@ -59,9 +53,6 @@ public class RolMenuController {
         }
     }
 
-    /**
-     * Quitar un menú de un rol
-     */
     @DeleteMapping("/quitar/{rolId}/menu/{menuId}")
     public ResponseEntity<?> quitarMenu(
             @PathVariable Integer rolId,
@@ -81,9 +72,6 @@ public class RolMenuController {
         }
     }
 
-    /**
-     * Obtener todos los menús asignados a un rol
-     */
     @GetMapping("/{rolId}/menus")
     public ResponseEntity<?> obtenerMenusPorRol(@PathVariable Integer rolId) {
         try {
@@ -97,9 +85,6 @@ public class RolMenuController {
         }
     }
 
-    /**
-     * Obtener menús disponibles (no asignados) para un rol
-     */
     @GetMapping("/{rolId}/menus-disponibles")
     public ResponseEntity<?> obtenerMenusDisponibles(@PathVariable Integer rolId) {
         try {

@@ -1,15 +1,11 @@
+import { Persona } from "./persona";
 import { Rol } from "./rol";
 
 export interface Usuario {
   id: number;
-  nombres: string;
-  apellidos: string;
-  dni: string;
-  telefono: string;
-  codigoAlumno: string;
-  sede: string;
   correo: string;
+  persona: Persona;
   roles: Rol[];
   activo: boolean;
-  fechaCreacion: string;
+  fechaCreacion?: Date;
 }

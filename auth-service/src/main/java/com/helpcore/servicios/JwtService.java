@@ -2,10 +2,13 @@ package com.helpcore.servicios;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
+import com.helpcore.entidades.Rol;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +70,13 @@ public class JwtService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("correo", usuario.getCorreo());
         claims.put("type", tokenType);
+
+        if (usuario.getRoles() != null && !usuario.getRoles().isEmpty()) {
+            List<String> rolesNombres = usuario.getRoles().stream()
+                    .map(Rol::getNombre)
+                    .collect(Collectors.toList());
+            claims.put("roles", rolesNombres);
+        }
 
         return Jwts.builder()
                 .setId(usuario.getId().toString())

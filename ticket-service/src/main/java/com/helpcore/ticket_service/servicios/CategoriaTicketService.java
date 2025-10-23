@@ -266,4 +266,13 @@ public class CategoriaTicketService {
             throw new IllegalArgumentException("La descripción no puede exceder 255 caracteres");
         }
     }
+
+    @Transactional(readOnly = true)
+    public CategoriaTicketDTO obtenerPorIdCompleto(Integer id) {
+        CategoriaTicket categoria = buscar(id);
+        if (categoria == null) {
+            return null;
+        }
+        return convertirADTOCompleto(categoria);
+    }
 }

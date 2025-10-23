@@ -1,0 +1,361 @@
+<div class="ticket-detail-container">
+    <div *ngIf="isLoading" class="loading-state">
+        <i class="bi bi-hourglass-split"></i>
+        <p>Cargando información del ticket?...</p>
+    </div>
+
+    <ng-container *ngIf="!isLoading && ticket">
+        <div *ngIf="esTicketCerrado()" class="closed-banner">
+            <div class="closed-icon">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="closed-content">
+                <h2>Este ticket ha sido cerrado</h2>
+                <p>El problema fue resuelto exitosamente y el ticket se encuentra archivado</p>
+            </div>
+        </div>
+
+        <div class="detail-header">
+            <div class="header-top">
+                <div class="ticket-info">
+                    <h1>#{{ ticket?.id }} - {{ ticket?.titulo }}</h1>
+                    <div class="ticket-meta">
+                        <span class="meta-item">
+                            <i class="bi bi-clock"></i>
+                            {{ getTiempoTranscurrido() }}
+                        </span>
+                        <span class="meta-item">
+                            <i class="bi bi-person"></i>
+                            {{ ticket?.solicitante?.nombre }} {{ ticket?.solicitante?.apellido }}
+                        </span>
+                        <span class="meta-item">
+                            <i class="bi bi-geo-alt"></i>
+                            {{ ticket?.solicitante?.sede?.nombre }}
+                        </span>
+                    </div>
+                </div>
+
+
+                <div class="header-actions">
+                    <ng-container *ngIf="esTicketNuevo() && esAgente()">
+                        <button class="btn btn-take" (click)="tomarTicket()">
+                            <i class="bi bi-hand-thumbs-up"></i>
+                            Tomar Ticket
+                        </button>
+                    </ng-container>
+
+                    <ng-container *ngIf="esTicketEnAtencion() && esAgenteAsignado()">
+                        <button class="btn btn-resolve">
+                            <i class="bi bi-check-circle"></i>
+                            Marcar como Resuelto
+                        </button>
+                        <button class="btn btn-close-ticket">
+                            <i class="bi bi-x-circle"></i>
+                            Cerrar Ticket
+                        </button>
+                    </ng-container>
+
+                    <button class="btn btn-back" (click)="volver()">
+                        <i class="bi bi-arrow-left"></i>
+                        Volver
+                    </button>
+                </div>
+            </div>
+
+            <div class="badges">
+                <span class="badge" [ngClass]="getEstadoBadgeClass()">
+                    {{ getEstadoTexto() }}
+                </span>
+                <span class="badge" [ngClass]="getPrioridadBadgeClass()">
+                    {{ ticket?.prioridad }}
+                </span>
+
+                <span *ngIf="tieneAgenteAsignado()" class="assigned-tag"
+                    [class.resuelto]="esTicketResuelto() || esTicketCerrado()">
+                    <i class="bi"
+                        [ngClass]="esTicketCerrado() || esTicketResuelto() ? 'bi-patch-check' : 'bi-person-check'"></i>
+                    {{ esTicketCerrado() || esTicketResuelto() ? 'Resuelto por:' : 'Asignado a:' }}
+                    {{ ticket?.agente!.nombreCompleto }}
+                    <span *ngIf="esAgenteAsignado()">(Tú)</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            <div>
+                <div class="ticket-content">
+                    <div class="content-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-file-text"></i>
+                            {{ esTicketCerrado() ? 'Descripción Original del Problema' : 'Descripción del Problema' }}
+                        </h3>
+                        <p class="description-text">{{ ticket?.descripcion }}</p>
+                    </div>
+
+                    <div class="content-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-info-circle"></i>
+                            {{ esTicketCerrado() ? 'Información del Ticket' : 'Información Adicional' }}
+                        </h3>
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-label">Código de Alumno</div>
+                                <div class="info-value">{{ ticket?.codigoAlumno }}</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Sede</div>
+                                <div class="info-value">{{ ticket?.solicitante?.sede?.nombre }}</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Categoría</div>
+                                <div class="info-value">{{ ticket?.categoria?.nombre }}</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Fecha de Creación</div>
+                                <div class="info-value">{{ ticket?.fechaCreacion | date:'dd/MM/yyyy' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-container">
+                    <!-- Header del Chat -->
+                    <div class="chat-header">
+                        <div class="chat-title">
+                            <i class="bi bi-chat-dots"></i>
+                            <h3>Historial de Conversación</h3>
+                        </div>
+                        <div class="chat-status" [ngClass]="{'cerrado': esTicketCerrado()}">
+                            <i class="bi"
+                                [ngClass]="{'bi-lock': esTicketCerrado(), 'bi-chat-left-text': !esTicketCerrado()}"></i>
+                            {{ esTicketCerrado() ? 'Ticket Cerrado' : 'Activo' }}
+                        </div>
+                    </div>
+
+                    <!-- Mensajes del Chat -->
+                    <div class="chat-messages" #chatMessages>
+                        <div *ngIf="chatCargando" class="loading-messages">
+                            <i class="bi bi-hourglass-split"></i>
+                            <p>Cargando mensajes...</p>
+                        </div>
+
+                        <div *ngIf="!chatCargando && mensajesChatLocal.length === 0" class="sin-mensajes">
+                            <i class="bi bi-chat-left"></i>
+                            <p>No hay mensajes aún. ¡Inicia una conversación!</p>
+                        </div>
+
+                        <!-- Mensajes -->
+                        <div *ngFor="let mensaje of mensajesChatLocal" class="mensaje-item"
+                            [ngClass]="{'mensaje-propio': mensaje.esDelUsuarioActual, 'mensaje-otro': !mensaje.esDelUsuarioActual}">
+
+                            <div class="mensaje-avatar">
+                                <i class="bi"
+                                    [ngClass]="mensaje.tipoUsuario === 'AGENTE' ? 'bi-person-badge' : 'bi-person'"></i>
+                            </div>
+
+                            <div class="mensaje-contenido">
+                                <div class="mensaje-header">
+                                    <span class="mensaje-usuario">{{ mensaje.nombreUsuario }}</span>
+                                    <span class="mensaje-tipo"
+                                        [ngClass]="{'tipo-agente': mensaje.tipoUsuario === 'AGENTE', 'tipo-cliente': mensaje.tipoUsuario === 'CLIENTE'}">
+                                        {{ mensaje.tipoUsuario === 'AGENTE' ? 'Agente' : 'Solicitante' }}
+                                    </span>
+                                    <span class="mensaje-hora">{{ mensaje.fechaCreacion | date:'dd/MM/yyyy HH:mm'
+                                        }}</span>
+                                </div>
+
+                                <div class="mensaje-texto">
+                                    {{ mensaje.mensaje }}
+                                </div>
+
+                                <div *ngIf="mensaje.archivos && mensaje.archivos.length > 0" class="mensaje-archivos">
+                                    <div *ngFor="let archivo of mensaje.archivos" class="archivo-item">
+                                        <div *ngIf="archivo.esImagen" class="archivo-imagen">
+                                            <img [src]="'data:' + archivo.tipoMime + ';base64,' + obtenerBase64Archivo(archivo)"
+                                                [alt]="archivo.nombreOriginal" (click)="verImagenGrande(archivo)">
+                                        </div>
+                                        <div *ngIf="!archivo.esImagen" class="archivo-documento">
+                                            <i class="bi bi-file-earmark"></i>
+                                            <div>
+                                                <div class="archivo-nombre">{{ archivo.nombreOriginal }}</div>
+                                                <span class="archivo-tamanio">{{ formatearTamanio(archivo.tamano)
+                                                    }}</span>
+                                            </div>
+                                        </div>
+                                        <button class="btn-descargar" (click)="descargarArchivo(archivo)"
+                                            title="Descargar">
+                                            <i class="bi bi-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-area" *ngIf="!esTicketCerrado()">
+                        <div class="input-wrapper">
+                            <textarea [(ngModel)]="nuevoMensaje" placeholder="Escribe tu respuesta aquí..."
+                                class="input-mensaje" [disabled]="enviandoMensaje"
+                                (keydown)="enviarMensaje($event)"></textarea>
+
+                            <div class="input-acciones">
+                                <button class="btn-adjuntar" (click)="inputArchivo.click()" [disabled]="enviandoMensaje"
+                                    title="Adjuntar archivo">
+                                    <i class="bi bi-paperclip"></i>
+                                    Adjuntar Archivo
+                                </button>
+
+                                <input #inputArchivo type="file" hidden (change)="onArchivoSeleccionado($event)">
+
+                                <button class="btn-enviar" (click)="enviarMensaje()"
+                                    [disabled]="(!nuevoMensaje.trim() && !archivoSeleccionado) || enviandoMensaje">
+                                    <i class="bi" [ngClass]="enviandoMensaje ? 'bi-hourglass-split' : 'bi-send'"></i>
+                                    {{ enviandoMensaje ? 'Enviando...' : 'Enviar Respuesta' }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div *ngIf="archivoSeleccionado" class="archivo-seleccionado">
+                            <i class="bi bi-file-earmark-check"></i>
+                            <span>{{ archivoSeleccionado.name }}</span>
+                            <button class="btn-quitar" (click)="limpiarArchivo()" title="Quitar archivo">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </div>
+
+                        <div *ngIf="cargandoArchivo" class="cargando-archivo">
+                            <div class="spinner"></div>
+                            <span>Subiendo archivo...</span>
+                        </div>
+                    </div>
+
+                    <div class="chat-cerrado" *ngIf="esTicketCerrado()">
+                        <i class="bi bi-lock-fill"></i>
+                        <p>Este ticket está cerrado. No se pueden enviar más mensajes.</p>
+                    </div>
+                </div>
+
+                <div *ngIf="imagenSeleccionada" class="modal-imagen" (click)="imagenSeleccionada = null">
+                    <div class="modal-contenido" (click)="$event.stopPropagation()">
+                        <button class="btn-cerrar-modal" (click)="imagenSeleccionada = null">
+                            <i class="bi bi-x"></i>
+                        </button>
+                        <img [src]="imagenSeleccionada" alt="Vista ampliada">
+                    </div>
+                </div>
+            </div>
+            <div class="ticket-sidebar">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="bi bi-person-circle"></i>
+                        Información del Estudiante
+                    </h3>
+                    <div class="requester-info">
+                        <div class="requester-item">
+                            <span class="requester-label">
+                                <i class="bi bi-person"></i>
+                                Nombre
+                            </span>
+                            <span class="requester-value">
+                                {{ ticket?.solicitante?.nombre }} {{ ticket?.solicitante?.apellido }}
+                            </span>
+                        </div>
+                        <div class="requester-item">
+                            <span class="requester-label">
+                                <i class="bi bi-envelope"></i>
+                                Correo
+                            </span>
+                            <span class="requester-value">{{ ticket?.solicitante?.correo }}</span>
+                        </div>
+                        <div class="requester-item">
+                            <span class="requester-label">
+                                <i class="bi bi-telephone"></i>
+                                Teléfono
+                            </span>
+                            <span class="requester-value">{{ ticket?.solicitante?.telefono }}</span>
+                        </div>
+                        <div class="requester-item">
+                            <span class="requester-label">
+                                <i class="bi bi-card-text"></i>
+                                DNI
+                            </span>
+                            <span class="requester-value">{{ ticket?.solicitante?.dni }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="bi bi-clock-history"></i>
+                        {{ esTicketCerrado() ? 'Cronología Completa' : 'Historial de Estados' }}
+                    </h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-icon completed">
+                                <i class="bi bi-plus"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Ticket Creado</div>
+                                <div class="timeline-date">{{ ticket?.fechaCreacion | date:'dd/MM/yyyy - HH:mm' }}</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-icon" [class.completed]="tieneAgenteAsignado()">
+                                <i class="bi bi-person-check"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">
+                                    {{ tieneAgenteAsignado() ? 'Asignado a ' + ticket?.agente!.nombreCompleto :
+                                    'Asignado' }}
+                                </div>
+                                <div class="timeline-date">
+                                    {{ ticket?.fechaAsignacion ? (ticket?.fechaAsignacion | date:'dd/MM/yyyy - HH:mm') :
+                                    'Pendiente' }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-icon" [class.completed]="esTicketResuelto() || esTicketCerrado()"
+                                [class.active]="esTicketEnAtencion()">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">En Atención</div>
+                                <div class="timeline-date">
+                                    {{ esTicketEnAtencion() ? 'Ahora' : (esTicketResuelto() || esTicketCerrado() ?
+                                    (ticket?.fechaAsignacion | date:'dd/MM/yyyy') : 'Pendiente') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-icon" [class.completed]="esTicketResuelto() || esTicketCerrado()">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">{{ esTicketCerrado() ? 'Marcado como Resuelto' : 'Resuelto'
+                                    }}</div>
+                                <div class="timeline-date">
+                                    {{ ticket?.fechaResolucion ? (ticket?.fechaResolucion | date:'dd/MM/yyyy - HH:mm') :
+                                    'Pendiente' }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" *ngIf="esTicketCerrado()">
+                            <div class="timeline-icon completed">
+                                <i class="bi bi-lock"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Ticket Cerrado</div>
+                                <div class="timeline-date">{{ ticket?.fechaCierre | date:'dd/MM/yyyy - HH:mm' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>

@@ -9,7 +9,7 @@ public class UsuarioRegisterDTO {
     private String dni;
     private String telefono;
     private String codigo;
-    private String sede;
+    private Integer idSede;
     private String correo;
     private String contrasena;
 }

@@ -20,4 +20,20 @@ export class NotificationService{
     validarCodigo(email: string, code: string): Observable<any>{
         return this.http.post(`${this.baseUrl + this.verificationPath}/validar-codigo`, {email, code});
     }
+
+    enviarNotificacionTicket(ticketData: any): Observable<any> {
+        return this.http.post(`${this.baseUrl + this.notificationPath}/ticket-creado`, ticketData);
+    }
+
+    enviarNotificacionTicketUsuario(idUsuario: number, ticketData: any): Observable<any> {
+        return this.http.post(`${this.baseUrl + this.notificationPath}/ticket-creado/${idUsuario}`, ticketData);
+    }
+
+    enviarCodigoPorCodigoTicket(codigoTicket: string): Observable<any>{
+        return this.http.post(`${this.baseUrl + this.verificationPath}/consultar-ticket/${codigoTicket}`, {});
+    }
+
+    validarCodigoPorTicket(ticketId: string, code: string) {
+        return this.http.post<any>(`${this.baseUrl + this.verificationPath}/validar-codigo/${ticketId}`, { code });
+    }
 }

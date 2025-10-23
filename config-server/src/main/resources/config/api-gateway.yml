@@ -17,7 +17,7 @@ spring:
         - id: auth-service-protected
           uri: lb://auth-service
           predicates:
-            - Path=/api/rol/**, /api/menu/**, /api/rol-menu/**, /api/usuario-rol/**
+            - Path=/api/rol/**, /api/menu/**, /api/rol-menu/**, /api/usuario-rol/**, /api/rol-categoria/**, /api/agente/**
           filters:
             - StripPrefix=1
             - AuthenticationFilter
@@ -25,7 +25,7 @@ spring:
         - id: auth-service-public
           uri: lb://auth-service
           predicates:
-            - Path=/api/auth/**
+            - Path=/api/auth/**, /api/persona/**, /api/usuario/**
           filters:
             - StripPrefix=1
 
@@ -38,7 +38,14 @@ spring:
             - StripPrefix=1
 
         # Ruta para Ticket Service
-        - id: ticket-service
+        - id: ticket-service-public
+          uri: lb://ticket-service
+          predicates:
+            - Path=/api/categoria-ticket/listar,/api/ticket/crear-invitado,/api/sede/listar,/api/chat/**
+          filters:
+            - StripPrefix=1
+
+        - id: ticket-service-protected
           uri: lb://ticket-service
           predicates:
             - Path=/api/ticket/**, /api/categoria-ticket/**

@@ -1,0 +1,194 @@
+<div class="container-fluid py-4">
+    <div class="config-container">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a [routerLink]="['/configuracion']">
+                        <i class="bi bi-gear-fill me-1"></i>
+                        Configuración
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Gestión de Agentes</li>
+            </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="config-title mb-2">
+                    <i class="bi bi-people-fill me-2"></i>
+                    Gestión de Agentes
+                </h1>
+                <p class="config-subtitle mb-0">Administra los agentes de capacitación del sistema</p>
+            </div>
+            <button class="btn btn-primary rounded-pill" (click)="abrirModalCrear()">
+                <i class="bi bi-plus-circle me-2"></i>
+                Nuevo Agente
+            </button>
+        </div>
+
+        <!-- Tabla de agentes -->
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="agentesTable" class="table table-striped table-borderless align-middle w-100">
+                        <thead>
+                            <tr>
+                                <th>Nombre Completo</th>
+                                <th>DNI</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th class="text-center">Estado</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de crear/editar agente -->
+<div class="modal fade" id="editAgenteModal" tabindex="-1" aria-labelledby="editAgenteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="editAgenteModalLabel">
+                    <i class="bi bi-person-plus me-2"></i>
+                    {{ modoEdicion ? 'Editar Agente' : 'Crear Nuevo Agente' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formularioAgente">
+                    <!-- Datos Personales -->
+                    <div class="section-title mb-3">
+                        <i class="bi bi-person-vcard me-2"></i>
+                        Datos Personales
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombres <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" formControlName="nombres" 
+                                   placeholder="Ingrese nombres">
+                            <div class="invalid-feedback" *ngIf="isFieldInvalid('nombres')">
+                                Los nombres son requeridos (mínimo 2 caracteres)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Apellidos <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" formControlName="apellidos"
+                                   placeholder="Ingrese apellidos">
+                            <div class="invalid-feedback" *ngIf="isFieldInvalid('apellidos')">
+                                Los apellidos son requeridos (mínimo 2 caracteres)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">DNI <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" formControlName="dni"
+                                   placeholder="Ingrese DNI" [readonly]="modoEdicion">
+                            <div class="invalid-feedback" *ngIf="isFieldInvalid('dni')">
+                                El DNI es requerido (8 dígitos)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" formControlName="telefono"
+                                   placeholder="Ingrese teléfono">
+                        </div>
+                    </div>
+
+                    <!-- Datos de Cuenta -->
+                    <div class="section-title mb-3">
+                        <i class="bi bi-envelope me-2"></i>
+                        Datos de Cuenta
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-12">
+                            <label class="form-label">Correo <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" formControlName="correo"
+                                   placeholder="Ingrese correo electrónico" [readonly]="modoEdicion">
+                            <div class="invalid-feedback" *ngIf="isFieldInvalid('correo')">
+                                El correo es requerido y debe ser válido
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="!modoEdicion">
+                            <label class="form-label">Contraseña <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" formControlName="contrasena"
+                                   placeholder="Ingrese contraseña">
+                            <div class="invalid-feedback" *ngIf="isFieldInvalid('contrasena')">
+                                La contraseña es requerida (mínimo 6 caracteres)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estado -->
+                    <div class="section-title mb-3" *ngIf="modoEdicion">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Estado
+                    </div>
+
+                    <div class="form-check form-switch mb-4" *ngIf="modoEdicion">
+                        <input class="form-check-input" type="checkbox" formControlName="activo" id="activoCheck">
+                        <label class="form-check-label" for="activoCheck">
+                            Agente activo
+                        </label>
+                    </div>
+                </form>
+
+                <div class="alert alert-info d-flex align-items-start" role="alert">
+                    <i class="bi bi-info-circle-fill me-3 mt-1"></i>
+                    <small>
+                        El agente será asignado automáticamente al rol "Agente Capacitación". 
+                        Los campos marcados con <span class="text-danger">*</span> son obligatorios.
+                    </small>
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary rounded-pill" (click)="cerrarModal()">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-primary rounded-pill" 
+                        (click)="guardarAgente()" [disabled]="!formularioAgente.valid || guardando">
+                    <i class="bi me-2" [ngClass]="guardando ? 'bi-hourglass-split' : 'bi-check-circle'"></i>
+                    {{ guardando ? 'Guardando...' : 'Guardar Agente' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmación de deshabilitación -->
+<div class="modal fade" id="confirmarDeshabilitarModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Confirmar Deshabilitación
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" *ngIf="agenteADeshabilitarNombre">
+                <p>¿Está seguro de que desea deshabilitar al agente <strong>{{ agenteADeshabilitarNombre }}</strong>?</p>
+                <p class="text-muted small mb-0">Esta acción no elimina el registro, solo lo marca como inactivo.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-warning rounded-pill" 
+                        (click)="confirmarDeshabilitar()" [disabled]="guardando">
+                    <i class="bi me-2" [ngClass]="guardando ? 'bi-hourglass-split' : 'bi-trash'"></i>
+                    Deshabilitar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

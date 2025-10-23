@@ -10,5 +10,8 @@ export const environment = {
   rolService: '/rol',
   usuarioRolService: '/usuario-rol',
   rolMenuService: '/rol-menu',
-  categoriaRolService: '/rol-categoria'
+  categoriaRolService: '/rol-categoria',
+  sedeService: '/sede',
+  agenteService: '/agente',
+  chatService: '/chat'
 };

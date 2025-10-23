@@ -4,7 +4,7 @@ export interface RegisterRequestDTO {
   dni: string;
   telefono: string;
   codigo: string;
-  sede: string;
+  idSede: number;
   correo: string;
   contrasena: string;
 }

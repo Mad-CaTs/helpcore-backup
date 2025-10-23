@@ -27,4 +27,6 @@ public class TicketInvitadoRequestDTO {
 
     private String categoria;
 
+    private String correoInvitado;
+
 }

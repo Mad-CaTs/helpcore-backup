@@ -21,6 +21,8 @@ import { ConfiguracionRolesUsuario } from './components/configuracion-roles-usua
 import { Dashboard } from './components/dashboard/dashboard';
 import { ConfiguracionCategoriasTicket } from './components/configuracion-categorias-ticket/configuracion-categorias-ticket';
 import { ConfiguracionCategoriaRoles } from './components/configuracion-categoria-roles/configuracion-categoria-roles';
+import { ConfiguracionAgentesComponent } from './components/configuracion-agentes/configuracion-agentes';
+import { VerTicketComponent } from './components/ver-ticket/ver-ticket';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { ConfiguracionCategoriaRoles } from './components/configuracion-categori
     ConfiguracionRolMenu,
     ConfiguracionRolesUsuario,
     ConfiguracionCategoriasTicket,
-    ConfiguracionCategoriaRoles
+    ConfiguracionCategoriaRoles,
+    ConfiguracionAgentesComponent,
+    VerTicketComponent
     
   ],
   imports: [
@@ -48,7 +52,8 @@ import { ConfiguracionCategoriaRoles } from './components/configuracion-categori
     HttpClientModule,
     RouterModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

@@ -39,7 +39,12 @@ export class Login {
           this.notyf.success("Login exitoso.");
           
           setTimeout(() => {
-            this.router.navigate(['/inicio']);
+            const roles = this.authService.getUserRoles();
+            if (roles.includes('Administrador')) {
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.router.navigate(['/inicio']);
+            }
           }, 500);
         },
         error: (error) => {
@@ -50,7 +55,7 @@ export class Login {
           } else if (error.status === 0) {
             this.mensaje = "Error de conexión. Verifica que el servidor esté corriendo.";
           } else if (error.status === 500) {
-            this.notyf.error("Error en login.");
+            this.notyf.error("Correo o contraseña incorrectos.");
           } else {
             this.mensaje = "Ha ocurrido un error inesperado.";
           }

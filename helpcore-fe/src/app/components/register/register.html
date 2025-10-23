@@ -6,22 +6,13 @@
     </div>
 
     <form class="register-form" [formGroup]="registroForm" (ngSubmit)="onSubmit()">
-      
-      <!-- Mensaje de error general -->
-      <div class="alert alert-danger" *ngIf="errorMessage">
-        <i class="bi bi-exclamation-circle"></i>
-        {{ errorMessage }}
-      </div>
 
       <div class="form-grid">
         <!-- Nombres -->
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-person"></i></div>
-            <input 
-              type="text" 
-              formControlName="nombres" 
-              placeholder="Nombres" 
+            <input type="text" formControlName="nombres" placeholder="Nombres" maxlength="100"
               [class.invalid]="isFieldInvalid('nombres')">
           </div>
           <span class="error-message" *ngIf="isFieldInvalid('nombres')">
@@ -33,10 +24,7 @@
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-person"></i></div>
-            <input 
-              type="text" 
-              formControlName="apellidos" 
-              placeholder="Apellidos" 
+            <input type="text" formControlName="apellidos" placeholder="Apellidos" maxlength="100"
               [class.invalid]="isFieldInvalid('apellidos')">
           </div>
           <span class="error-message" *ngIf="isFieldInvalid('apellidos')">
@@ -48,11 +36,7 @@
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-card-text"></i></div>
-            <input 
-              type="text" 
-              formControlName="dni" 
-              placeholder="DNI (8 dígitos)" 
-              maxlength="8"
+            <input type="text" formControlName="dni" placeholder="DNI (8 dígitos)" maxlength="8"
               [class.invalid]="isFieldInvalid('dni')">
           </div>
           <span class="error-message" *ngIf="isFieldInvalid('dni')">
@@ -64,12 +48,8 @@
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-telephone"></i></div>
-            <input 
-              type="text" 
-              formControlName="telefono" 
-              placeholder="Teléfono móvil (9 dígitos)" 
-              maxlength="9"
-              [class.invalid]="isFieldInvalid('telefono')">
+            <input type="text" formControlName="telefono" placeholder="Teléfono móvil (9 dígitos, inicia con 9)"
+              maxlength="9" [class.invalid]="isFieldInvalid('telefono')">
           </div>
           <span class="error-message" *ngIf="isFieldInvalid('telefono')">
             {{ getErrorMessage('telefono') }}
@@ -80,10 +60,7 @@
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-mortarboard"></i></div>
-            <input 
-              type="text" 
-              formControlName="codigo" 
-              placeholder="Código de alumno" 
+            <input type="text" formControlName="codigo" placeholder="Código de alumno (ej: i12345678)" maxlength="9"
               [class.invalid]="isFieldInvalid('codigo')">
           </div>
           <span class="error-message" *ngIf="isFieldInvalid('codigo')">
@@ -95,25 +72,20 @@
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-building"></i></div>
-            <input 
-              type="text" 
-              formControlName="sede" 
-              placeholder="Sede" 
-              [class.invalid]="isFieldInvalid('sede')">
+            <select formControlName="sede" [class.invalid]="isFieldInvalid('sede')">
+              <option value="">— Seleccionar —</option>
+              <option *ngFor="let s of sedes" [value]="s.id">{{ s.nombre }}</option>
+            </select>
           </div>
-          <span class="error-message" *ngIf="isFieldInvalid('sede')">
-            {{ getErrorMessage('sede') }}
-          </span>
+          <span class="error-message" *ngIf="isFieldInvalid('sede')">{{ getErrorMessage('sede') }}</span>
+          <small *ngIf="sedes.length === 0" class="text-muted">No hay sedes disponibles</small>
         </div>
 
         <!-- Correo -->
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-envelope"></i></div>
-            <input 
-              type="email" 
-              formControlName="correo" 
-              placeholder="Correo electrónico activo" 
+            <input type="email" formControlName="correo" placeholder="Correo electrónico activo" maxlength="100"
               [class.invalid]="isFieldInvalid('correo')">
           </div>
           <span class="error-message" *ngIf="isFieldInvalid('correo')">
@@ -125,11 +97,8 @@
         <div class="form-group">
           <div class="input-group">
             <div class="input-icon"><i class="bi bi-lock"></i></div>
-            <input 
-              type="password" 
-              formControlName="contrasena" 
-              placeholder="Contraseña (mínimo 6 caracteres)" 
-              [class.invalid]="isFieldInvalid('contrasena')">
+            <input type="password" formControlName="contrasena" placeholder="Contraseña (mínimo 6 caracteres)"
+              maxlength="50" [class.invalid]="isFieldInvalid('contrasena')">
           </div>
           <span class="error-message" *ngIf="isFieldInvalid('contrasena')">
             {{ getErrorMessage('contrasena') }}

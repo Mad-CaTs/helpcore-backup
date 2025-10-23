@@ -65,11 +65,11 @@
                 <div class="alert alert-info d-flex align-items-start mb-4" role="alert">
                     <i class="bi bi-person-circle fs-4 me-3"></i>
                     <div>
-                        <strong>{{ usuarioSeleccionado.nombres }} {{ usuarioSeleccionado.apellidos }}</strong>
+                        <strong>{{ usuarioSeleccionado.persona.nombres }} {{ usuarioSeleccionado.persona.apellidos }}</strong>
                         <br>
                         <small class="text-muted">
-                            DNI: {{ usuarioSeleccionado.dni }} | 
-                            Código: {{ usuarioSeleccionado.codigoAlumno }} | 
+                            DNI: {{ usuarioSeleccionado.persona.dni }} | 
+                            Código: {{ usuarioSeleccionado.persona.codigoAlumno }} | 
                             {{ usuarioSeleccionado.correo }}
                         </small>
                     </div>

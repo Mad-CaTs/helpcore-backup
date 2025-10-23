@@ -1,4 +1,3 @@
-/* Reset and Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -7,15 +6,15 @@
 body {
   margin: 0;
   height: 100vh;
-  background: #f5f6fa; /* opcional */
-  display: block; /* importante: no uses flex aquí */
+  background: #f5f6fa;
+  display: block;
 }
 
 .login-container {
-  min-height: 100vh; /* que ocupe todo el alto */
+  min-height: 100vh;
   display: flex;
-  justify-content: center; /* horizontal */
-  align-items: center;     /* vertical */
+  justify-content: center;
+  align-items: center;
 }
 
 .login-card {
@@ -34,7 +33,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* Login Header */
 .login-header {
   text-align: center;
   margin-bottom: 2rem;
@@ -54,7 +52,6 @@ body {
   font-weight: 400;
 }
 
-/* Form Styles */
 .login-form {
   margin-bottom: 2rem;
 }
@@ -106,7 +103,6 @@ body {
   font-weight: 400;
 }
 
-/* Primary Button */
 .btn-primary {
   width: 100%;
   background: #000000;
@@ -136,7 +132,6 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Form Footer */
 .form-footer {
   text-align: center;
 }
@@ -154,7 +149,6 @@ body {
   text-decoration: underline;
 }
 
-/* Login Footer */
 .login-footer {
   text-align: center;
   padding-top: 1.5rem;
@@ -182,7 +176,6 @@ body {
   font-weight: 400;
 }
 
-/* Responsive Design */
 @media (max-width: 480px) {
   body {
     padding: 0.5rem;
@@ -227,7 +220,6 @@ body {
   }
 }
 
-/* Focus and Accessibility */
 .btn-primary:focus,
 .input-group input:focus,
 .forgot-password:focus {
@@ -235,7 +227,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Loading State */
 .btn-primary.loading {
   opacity: 0.7;
   cursor: not-allowed;
@@ -262,7 +253,6 @@ body {
   }
 }
 
-/* Error States */
 .input-group.error {
   border-color: #dc2626;
   background: #fef2f2;
@@ -281,4 +271,17 @@ body {
 
 .error-message.show {
   display: block;
+}
+
+a:hover{
+  color: #464646 !important;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+a {
+  color: #6d6d6d !important;
+  text-decoration: none;
 }

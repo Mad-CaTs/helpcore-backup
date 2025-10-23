@@ -101,7 +101,8 @@ body {
   font-size: 1.1rem;
 }
 
-.input-group input {
+.input-group input,
+.input-group select {
   flex: 1;
   border: none;
   background: transparent;

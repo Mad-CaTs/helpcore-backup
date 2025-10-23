@@ -12,6 +12,7 @@ public class TicketDashboardAgenteDTO {
     private Ticket.Estado estado;
     private Ticket.Prioridad prioridad;
     private String codigoAlumno;
+    private String codigoTicket;
     private String sede;
 
     private Integer idUsuarioAgente;

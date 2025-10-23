@@ -19,9 +19,6 @@ public class CategoriaTicketController {
     @Autowired
     private CategoriaTicketService categoriaTicketService;
 
-    /**
-     * Listar todas las categorías activas con estructura jerárquica
-     */
     @GetMapping("/listar")
     public ResponseEntity<List<CategoriaTicketDTO>> listarCategoriaTicket() {
         try {
@@ -32,9 +29,6 @@ public class CategoriaTicketController {
         }
     }
 
-    /**
-     * Listar todas las categorías (incluyendo inactivas) para administración
-     */
     @GetMapping("/listar-todas")
     public ResponseEntity<List<CategoriaTicketDTO>> listarTodasCategorias() {
         try {
@@ -45,9 +39,6 @@ public class CategoriaTicketController {
         }
     }
 
-    /**
-     * Obtener una categoría por ID
-     */
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaTicketDTO> obtenerCategoria(@PathVariable Integer id) {
         try {
@@ -116,10 +107,12 @@ public class CategoriaTicketController {
 
             CategoriaTicket categoriaActualizada = categoriaTicketService.actualizar(categoriaDTO);
 
+            CategoriaTicketDTO resultadoDTO = categoriaTicketService.obtenerPorIdCompleto(categoriaActualizada.getId());
+
             return ResponseEntity.ok(ResponseDTO.builder()
                     .success(true)
                     .message("Categoría actualizada correctamente")
-                    .data(categoriaActualizada)
+                    .data(resultadoDTO)
                     .build());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(ResponseDTO.builder()
